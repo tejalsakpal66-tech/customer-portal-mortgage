@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Messages | Figor</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,400..600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/styles.css">
+  <link rel="stylesheet" href="css/messages.css">
+  <script src="js/brand.js"></script>
+</head>
+<body data-page="messages">
+  <div id="site-header"></div>
+
+  <main class="page page--compact">
+    <div class="msgs-head">
+      <div>
+        <h1 class="page__title msgs-title">Messages</h1>
+        <p class="msgs-lede">Chat with your mortgage specialist about your application.</p>
+      </div>
+      <button class="btn btn--primary msgs-new" type="button" data-compose>
+        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>
+        New message
+      </button>
+    </div>
+
+    <section class="msgs-card" data-view="list">
+      <!-- Conversations -->
+      <aside class="msgs-sidebar" aria-label="Conversations">
+        <div class="msgs-specialist">
+          <span class="avatar avatar--advisor" aria-hidden="true">TS</span>
+          <div class="msgs-specialist__text">
+            <p class="msgs-specialist__name">Tejal Sakpal</p>
+            <p class="msgs-specialist__meta">Mortgage specialist · Replies within 1 working day</p>
+          </div>
+          <a class="msgs-specialist__call" href="appointment-new.html" aria-label="Book a call with Tejal Sakpal" title="Book a call">
+            <svg viewBox="0 0 24 24" width="19" height="19" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3.5" y="5" width="17" height="15.5" rx="2.5"/><path d="M3.5 10h17M8 3v4M16 3v4"/></svg>
+          </a>
+        </div>
+
+        <label class="msgs-search">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5"/><path d="M20 20l-4.8-4.8"/></svg>
+          <span class="sr-only">Search messages</span>
+          <input type="search" placeholder="Search messages" data-search>
+        </label>
+
+        <ul class="msgs-threads" data-threads></ul>
+      </aside>
+
+      <!-- Conversation / new message / empty state -->
+      <div class="msgs-pane" data-pane></div>
+    </section>
+  </main>
+
+  <script src="js/layout.js"></script>
+  <script src="js/messages.js"></script>
+</body>
+</html>

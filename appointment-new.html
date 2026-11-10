@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Book an Appointment | Figor</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,400..600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/styles.css">
+  <link rel="stylesheet" href="css/appointments.css">
+  <script src="js/brand.js"></script>
+</head>
+<body data-page="appointments">
+  <div id="site-header"></div>
+
+  <main class="page page--compact">
+    <h1 class="appt-form-title">Appointment</h1>
+
+    <form class="appts-card appt-form" id="appointment-form" novalidate>
+      <div class="appt-field">
+        <label for="appt-specialist">Mortgage specialist</label>
+        <div class="appt-select">
+          <select id="appt-specialist" name="specialist" required>
+            <option selected>Tejal Sakpal</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="appt-field">
+        <label for="appt-date">Date</label>
+        <div class="appt-select">
+          <select id="appt-date" name="date" required>
+            <option value="" selected disabled>Select a date</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="appt-form__actions">
+        <a class="btn btn--text" href="appointments.html">Cancel</a>
+        <button class="btn btn--primary appt-save" type="submit" disabled>Save</button>
+      </div>
+    </form>
+  </main>
+
+  <script src="js/layout.js"></script>
+  <script src="js/appointments.js"></script>
+</body>
+</html>

@@ -1,0 +1,12 @@
+# macOS
+.DS_Store
+
+# Design-checker session cache and personal overrides
+.impeccable/hook.cache.json
+.impeccable/config.local.json
+
+# Local editor / assistant settings
+.claude/settings.local.json
+
+# Unused QA-tenant logo from the original replica (kept locally, not versioned)
+assets/images/logo.png

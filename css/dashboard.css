@@ -1,0 +1,824 @@
+/* ==========================================================================
+   Dashboard page
+   ========================================================================== */
+
+.dashboard-grid {
+  display: grid;
+  /* 8 / 4 column split with a 28px gutter */
+  grid-template-columns:
+    calc((100% + var(--grid-gap)) * 2 / 3 - var(--grid-gap))
+    calc((100% + var(--grid-gap)) / 3 - var(--grid-gap));
+  column-gap: var(--grid-gap);
+  align-items: start;
+}
+
+.hero {
+  margin: 0;
+  aspect-ratio: 16 / 9;
+  border-radius: var(--radius-xl);
+  overflow: hidden;
+  background: #dfe5d8;
+}
+
+.hero img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.dashboard-side {
+  display: flex;
+  flex-direction: column;
+  gap: 27px;
+}
+
+.dashboard-main {
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+  min-width: 0;
+}
+
+
+/* Application status card (in-progress state) */
+.status-card {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 32px;
+  min-height: 226px;
+  padding: 24px 36px 30px 31px;
+  border-radius: 14px;
+  background: var(--primary);
+  color: var(--on-primary);
+}
+
+.status-card[hidden] {
+  display: none;
+}
+
+.status-card__body {
+  min-width: 0;
+  max-width: 600px;
+}
+
+.status-card__title {
+  margin: 0;
+  font-size: 26.5px;
+  line-height: 34px;
+  font-weight: 600;
+}
+
+.status-card__text {
+  margin: 22px 0 0;
+  font-family: var(--font-form);
+  font-size: 15.8px;
+  line-height: 21.6px;
+  color: rgba(255, 255, 255, 0.85);
+}
+
+.status-card__text strong {
+  font-weight: 700;
+  color: var(--white);
+}
+
+.status-card__btn {
+  margin-top: 25px;
+  padding: 0 24px;
+  background: var(--white);
+  color: var(--gray-700);
+  font-weight: 500;
+  letter-spacing: 0.01em;
+}
+
+.status-card__btn:hover {
+  background: var(--primary-tint);
+}
+
+.status-ring {
+  position: relative;
+  flex: none;
+  width: 152px;
+  height: 152px;
+  margin-top: 5px;
+}
+
+.status-ring svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+  transform: rotate(-90deg);
+}
+
+.status-ring circle {
+  fill: none;
+  stroke-width: 19.2;
+}
+
+.status-ring__track {
+  stroke: rgba(255, 255, 255, 0.32);
+}
+
+.status-ring__bar {
+  stroke: var(--white);
+  stroke-dasharray: 0 999;
+  transition: stroke-dasharray 0.6s ease;
+}
+
+.status-ring__value {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 21px;
+  font-weight: 600;
+}
+
+/* Video play button on the hero */
+.hero {
+  position: relative;
+}
+
+.hero__play {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 90px;
+  height: 90px;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: rgba(45, 45, 45, 0.72);
+  color: var(--white);
+  transform: translate(-50%, -50%);
+  cursor: pointer;
+  transition: background-color 0.15s ease, transform 0.15s ease;
+}
+
+.hero__play[hidden] {
+  display: none;
+}
+
+.hero__play:hover {
+  background: rgba(30, 30, 30, 0.85);
+  transform: translate(-50%, -50%) scale(1.04);
+}
+
+.hero__play:focus-visible {
+  outline: 2px solid var(--white);
+  outline-offset: 3px;
+}
+
+.hero__play svg {
+  width: 46px;
+  height: 46px;
+}
+
+/* Mortgage application card */
+
+.applicants {
+  margin-top: 28px;
+}
+
+.applicants .field__label {
+  margin-bottom: 13px;
+}
+
+.applicants__list {
+  display: flex;
+  gap: 10px;
+}
+
+.application-card .btn {
+  margin-top: 22px;
+}
+
+/* Mortgage specialist card */
+
+.specialist-card .card__title {
+  margin-bottom: 36px;
+}
+
+.specialist {
+  display: grid;
+  grid-template-columns: 145px minmax(0, 1fr);
+  row-gap: 26px;
+  align-items: center;
+  margin: 0;
+}
+
+.specialist__name {
+  grid-column: 2;
+  margin: 0 0 9px;
+  font-size: 20px;
+  line-height: 26px;
+  font-weight: 600;
+  color: var(--gray-700);
+}
+
+.specialist dt,
+.specialist dd {
+  margin: 0;
+  font-size: 17px;
+  line-height: 22px;
+  color: var(--gray-700);
+}
+
+.specialist dd {
+  overflow-wrap: break-word;
+  min-width: 0;
+}
+
+.specialist dd a:hover {
+  color: var(--primary);
+}
+
+.specialist-card .btn {
+  margin-top: 27px;
+}
+
+/* ==========================================================================
+   Responsive
+   ========================================================================== */
+
+@media (max-width: 1240px) {
+  .specialist {
+    grid-template-columns: 72px minmax(0, 1fr);
+  }
+
+  .specialist__name {
+    grid-column: 1 / -1;
+  }
+}
+
+/* Tablet: hero full width, cards side by side underneath */
+@media (max-width: 1023px) {
+  .dashboard-main {
+    gap: 24px;
+  }
+
+  .dashboard-grid {
+    grid-template-columns: minmax(0, 1fr);
+    row-gap: 24px;
+  }
+
+  .dashboard-side {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 24px;
+    align-items: start;
+  }
+}
+
+/* Mobile: everything stacked */
+@media (max-width: 720px) {
+  .dashboard-main {
+    gap: 16px;
+  }
+
+  /* Title + ring share the first row, text and button span the full width */
+  .status-card {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    align-items: center;
+    gap: 0 16px;
+    min-height: 0;
+    padding: 20px 20px 22px;
+  }
+
+  .status-card__body {
+    display: contents;
+  }
+
+  .status-card__title {
+    grid-column: 1;
+    grid-row: 1;
+    font-size: 22px;
+    line-height: 28px;
+  }
+
+  .status-ring {
+    grid-column: 2;
+    grid-row: 1;
+    width: 76px;
+    height: 76px;
+    margin: 0;
+  }
+
+  .status-ring__value {
+    font-size: 15px;
+  }
+
+  .status-card__text {
+    grid-column: 1 / -1;
+    margin-top: 14px;
+    font-size: 15px;
+  }
+
+  .status-card__btn {
+    grid-column: 1 / -1;
+    display: flex;
+    width: 100%;
+    margin-top: 20px;
+  }
+
+  .hero__play {
+    width: 60px;
+    height: 60px;
+  }
+
+  .hero__play svg {
+    width: 32px;
+    height: 32px;
+  }
+
+  .dashboard-grid {
+    row-gap: 16px;
+  }
+
+  .hero {
+    border-radius: 16px;
+  }
+
+  .dashboard-side {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 16px;
+  }
+}
+
+@media (max-width: 600px) {
+  .applicants {
+    margin-top: 22px;
+  }
+
+  .applicants .field__label {
+    margin-bottom: 10px;
+  }
+
+  .specialist-card .card__title {
+    margin-bottom: 24px;
+  }
+
+  .specialist {
+    row-gap: 18px;
+  }
+
+  .specialist__name {
+    margin-bottom: 4px;
+  }
+
+  .specialist dt,
+  .specialist dd {
+    font-size: 16px;
+  }
+}
+
+
+/* ==========================================================================
+   Dashboard refresh (Figor)
+   ========================================================================== */
+
+.dash {
+  padding-top: 52px;
+}
+
+.dash-hello {
+  margin-bottom: 26px;
+}
+
+.dash-hello__title {
+  margin: 0;
+  font-size: 34px;
+  line-height: 42px;
+}
+
+.dash-hello__lede {
+  margin: 6px 0 0;
+  font-size: 16px;
+  line-height: 24px;
+  color: var(--gray-600);
+}
+
+.dashboard-main {
+  gap: 24px;
+}
+
+.dashboard-side {
+  gap: 24px;
+}
+
+/* Status card */
+.status-card__text {
+  margin-top: 14px;
+}
+
+.status-card__next {
+  margin: 12px 0 0;
+  font-size: 15px;
+  color: rgba(255, 255, 255, 0.85);
+}
+
+.status-card__next strong {
+  color: var(--white);
+}
+
+.status-card__btn {
+  gap: 10px;
+  margin-top: 22px;
+  font-weight: 600;
+}
+
+/* Card headers with a side link */
+.appt-card__head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.appt-card .card__title {
+  margin-bottom: 14px;
+}
+
+/* Video */
+.hero__caption {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 8px;
+  padding: 48px 24px 22px;
+  background: linear-gradient(to top, color-mix(in srgb, var(--shadow-color) 72%, transparent), color-mix(in srgb, var(--shadow-color) 0%, transparent));
+  color: var(--white);
+  pointer-events: none;
+}
+
+.hero__chip {
+  padding: 3px 10px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.2);
+  font-size: 12.5px;
+  font-weight: 600;
+  backdrop-filter: blur(4px);
+}
+
+.hero__caption-title {
+  font-family: var(--font-heading);
+  font-size: 24px;
+  line-height: 30px;
+  font-weight: 500;
+}
+
+/* Specialist */
+.specialist-id {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.specialist-id__avatar {
+  display: inline-flex;
+  flex: none;
+  align-items: center;
+  justify-content: center;
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  background: var(--accent-tint);
+  font-size: 17px;
+  font-weight: 700;
+  color: var(--accent-dark);
+}
+
+.specialist-id__name {
+  margin: 0;
+  font-size: 17px;
+  font-weight: 600;
+  color: var(--gray-900);
+}
+
+.specialist-id__role {
+  margin: 2px 0 0;
+  font-size: 14px;
+  color: var(--gray-500);
+}
+
+.specialist-contact {
+  display: grid;
+  gap: 10px;
+  margin: 20px 0 0;
+  padding: 16px 0 0;
+  border-top: 1px solid var(--card-border);
+  list-style: none;
+}
+
+.specialist-contact li {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  font-size: 15px;
+  line-height: 22px;
+  color: var(--gray-800);
+}
+
+.specialist-contact svg {
+  flex: none;
+  width: 20px;
+  height: 20px;
+  margin-top: 1px;
+  color: var(--accent);
+}
+
+.specialist-contact a {
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
+.specialist-contact a:hover {
+  color: var(--primary);
+}
+
+.specialist-actions {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin-top: 22px;
+}
+
+.specialist-actions .btn {
+  height: 46px;
+  padding: 0 12px;
+  font-size: 15px;
+  font-weight: 600;
+}
+
+/* Upcoming appointment */
+.appt-card__all {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--primary);
+}
+
+.appt-card__all:hover {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.next-appt {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.next-appt__date {
+  display: flex;
+  flex: none;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 58px;
+  height: 62px;
+  border-radius: 12px;
+  background: var(--primary);
+  color: var(--on-primary);
+}
+
+.next-appt__month {
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  opacity: 0.85;
+}
+
+.next-appt__day {
+  font-family: var(--font-heading);
+  font-size: 26px;
+  line-height: 28px;
+}
+
+.next-appt__body {
+  display: flex;
+  flex-direction: column;
+}
+
+.next-appt__title {
+  font-size: 15.5px;
+  font-weight: 600;
+  color: var(--gray-900);
+}
+
+.next-appt__meta {
+  font-size: 13.5px;
+  color: var(--gray-500);
+}
+
+.next-appt--empty {
+  flex-direction: column;
+  align-items: stretch;
+  gap: 14px;
+}
+
+.next-appt--empty p {
+  margin: 0;
+  font-size: 15px;
+  line-height: 23px;
+  color: var(--gray-600);
+}
+
+.next-appt__book {
+  height: 44px;
+  font-size: 15px;
+  font-weight: 600;
+}
+
+@media (max-width: 1023px) {
+  .dash {
+    padding-top: 32px;
+  }
+
+  .dashboard-main,
+  .dashboard-side {
+    gap: 20px;
+  }
+}
+
+@media (max-width: 600px) {
+  .dash {
+    padding-top: 22px;
+  }
+
+  .dash-hello {
+    margin-bottom: 18px;
+  }
+
+  .dash-hello__title {
+    font-size: 27px;
+    line-height: 34px;
+  }
+
+  .dash-hello__lede {
+    font-size: 15px;
+  }
+
+  .dashboard-main,
+  .dashboard-side {
+    gap: 16px;
+  }
+
+  .hero__caption {
+    padding: 36px 16px 14px;
+  }
+
+  .hero__caption-title {
+    font-size: 18px;
+    line-height: 24px;
+  }
+
+  .hero__chip {
+    display: none;
+  }
+
+}
+
+/* ==========================================================================
+   Action needed banner (outstanding documents / missing information)
+   Compact: one clickable row per item, side by side on wide screens.
+   ========================================================================== */
+
+.action-banner {
+  margin-bottom: 22px;
+  padding: 12px 14px 14px;
+  border: 1px solid var(--card-border);
+  border-radius: 16px;
+  background: var(--white);
+}
+
+.action-banner__head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin: 0 4px 10px;
+}
+
+.action-banner__title {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  margin: 0;
+  font-family: var(--font);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--primary-dark);
+}
+
+.action-banner__all {
+  flex: none;
+  font-size: 13.5px;
+  font-weight: 600;
+  color: var(--primary-dark);
+  white-space: nowrap;
+}
+
+.action-banner__all:hover {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.action-banner__list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 8px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.action-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  height: 100%;
+  min-height: 56px;
+  padding: 9px 10px 9px 10px;
+  border: 1px solid var(--gray-100);
+  border-radius: 12px;
+  color: inherit;
+  transition: border-color 0.15s ease, background-color 0.15s ease;
+}
+
+.action-row:hover {
+  border-color: var(--primary-line);
+  background: var(--primary-wash);
+}
+
+.action-row:focus-visible {
+  outline: 2px solid var(--primary);
+  outline-offset: 2px;
+}
+
+.action-row__icon {
+  display: inline-flex;
+  flex: none;
+  align-items: center;
+  justify-content: center;
+  width: 34px;
+  height: 34px;
+  padding: 8px;
+  border-radius: 10px;
+}
+
+/* Documents need the applicant to act; the review is a softer prompt */
+.action-row__icon--docs {
+  background: var(--primary-tint);
+  color: var(--primary-dark);
+}
+
+.action-row__icon--info {
+  background: var(--accent-tint);
+  color: var(--accent-dark);
+}
+
+.action-row__text {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.action-row__title {
+  font-size: 14.5px;
+  line-height: 20px;
+  font-weight: 600;
+  color: var(--gray-900);
+}
+
+.action-row__desc {
+  overflow: hidden;
+  font-size: 13px;
+  line-height: 18px;
+  color: var(--gray-500);
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.action-row__chev {
+  flex: none;
+  color: var(--gray-400);
+  transition: transform 0.15s ease, color 0.15s ease;
+}
+
+.action-row:hover .action-row__chev {
+  color: var(--primary);
+  transform: translateX(2px);
+}

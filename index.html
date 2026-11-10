@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Dashboard | Figor</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,400..600&family=Inter:wght@400;500;600;700&family=Manrope:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/styles.css">
+  <link rel="stylesheet" href="css/dashboard.css">
+  <script src="js/brand.js"></script>
+</head>
+<body data-page="dashboard">
+  <div id="site-header"></div>
+
+  <main class="page dash">
+    <header class="dash-hello">
+      <h1 class="page__title dash-hello__title"><span data-greeting>Hello</span>, Tejal</h1>
+      <p class="dash-hello__lede" data-lede>Let's get your mortgage application started.</p>
+    </header>
+
+    <!-- Shown when documents are outstanding or answers need reviewing -->
+    <section class="action-banner" data-action-banner aria-labelledby="action-title" hidden>
+      <div class="action-banner__head">
+        <h2 class="action-banner__title" id="action-title">
+          <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9.5"/><path d="M12 7.5v5.5"/><circle cx="12" cy="16.4" r="0.6" fill="currentColor"/></svg>
+          Action needed
+        </h2>
+        <a class="action-banner__all" href="application.html?section=application-status">Go to application<span aria-hidden="true"> →</span></a>
+      </div>
+      <ul class="action-banner__list">
+        <li data-action="documents" hidden>
+          <a class="action-row" href="application.html?section=documents">
+            <span class="action-row__icon action-row__icon--docs" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5"/><path d="M12 11v6M9 14l3-3 3 3"/></svg>
+            </span>
+            <span class="action-row__text">
+              <span class="action-row__title">Outstanding documents</span>
+              <span class="action-row__desc" data-action-docs-text>Required documents to upload</span>
+            </span>
+            <svg class="action-row__chev" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg>
+          </a>
+        </li>
+        <li data-action="info" hidden>
+          <a class="action-row" href="application.html" data-action-info-link title="Some sections in your application are incomplete based on the documents you've uploaded. Please review and confirm the necessary updates.">
+            <span class="action-row__icon action-row__icon--info" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20h4L19 9a2.8 2.8 0 0 0-4-4L4 16z"/><path d="M13.5 6.5l4 4"/></svg>
+            </span>
+            <span class="action-row__text">
+              <span class="action-row__title">Missing information</span>
+              <span class="action-row__desc">Some sections need reviewing</span>
+            </span>
+            <svg class="action-row__chev" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg>
+          </a>
+        </li>
+      </ul>
+    </section>
+
+    <div class="dashboard-grid">
+      <div class="dashboard-main">
+        <!-- Shown once an application has been started -->
+        <section class="status-card" id="status-card" aria-labelledby="status-title" hidden>
+          <div class="status-card__body">
+            <h2 class="status-card__title" id="status-title">Application Status</h2>
+            <p class="status-card__text">
+              Your application is <strong data-progress-text>0%</strong> complete. Pick up where you left off – your answers are saved.
+            </p>
+            <p class="status-card__next">Next up: <strong data-next-step>Your application details</strong></p>
+            <a class="btn status-card__btn" href="application.html" data-next-link>
+              Resume your Application
+              <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+            </a>
+          </div>
+          <div class="status-ring" id="status-ring" role="img" aria-label="0% complete">
+            <svg viewBox="0 0 152 152" aria-hidden="true">
+              <circle class="status-ring__track" cx="76" cy="76" r="66.4"/>
+              <circle class="status-ring__bar" cx="76" cy="76" r="66.4"/>
+            </svg>
+            <span class="status-ring__value" data-progress-text>0%</span>
+          </div>
+        </section>
+
+        <figure class="hero">
+          <img src="assets/images/hero.jpg" alt="Sunlit terrace beside a modern home looking out over landscaped gardens">
+          <button class="hero__play" type="button" aria-label="Play video: how your mortgage application works">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 6.2v11.6c0 .8.9 1.3 1.6.9l9.1-5.8a1.06 1.06 0 0 0 0-1.8L9.6 5.3C8.9 4.9 8 5.4 8 6.2z" fill="currentColor"/></svg>
+          </button>
+          <figcaption class="hero__caption">
+            <span class="hero__chip">2 min video</span>
+            <span class="hero__caption-title">How your mortgage application works</span>
+          </figcaption>
+        </figure>
+      </div>
+
+      <div class="dashboard-side">
+        <!-- Mortgage application -->
+        <section class="card application-card" aria-labelledby="application-title">
+          <h2 class="card__title" id="application-title">Mortgage Application</h2>
+
+          <form id="application-form" action="application.html">
+            <div class="field">
+              <label class="field__label" for="buyer-type">You are</label>
+              <div class="select">
+                <select id="buyer-type" name="buyerType">
+                  <option selected>Buying Your First Home</option>
+                  <option>Moving Home</option>
+                  <option>Remortgaging</option>
+                  <option>Buying to Let</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="field">
+              <label class="field__label" for="who-buying">Who is buying</label>
+              <div class="select">
+                <select id="who-buying" name="whoBuying">
+                  <option value="1" selected>Just me</option>
+                  <option value="2">Me and someone else</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="applicants">
+              <span class="field__label">Applicants</span>
+              <div class="applicants__list" id="applicants-list"></div>
+            </div>
+
+            <button class="btn btn--primary btn--block" type="submit" id="application-cta">Start Application</button>
+          </form>
+        </section>
+
+        <!-- Mortgage specialist -->
+        <section class="card specialist-card" aria-labelledby="specialist-title">
+          <h2 class="card__title" id="specialist-title">Your Mortgage Specialist</h2>
+
+          <div class="specialist-id">
+            <span class="specialist-id__avatar" aria-hidden="true">TS</span>
+            <div>
+              <p class="specialist-id__name">Tejal Sakpal</p>
+              <p class="specialist-id__role">Mortgage Specialist · <span data-brand-name>Figor</span></p>
+            </div>
+          </div>
+
+          <ul class="specialist-contact">
+            <li>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/></svg>
+              <a href="mailto:specialist@example.com">specialist@example.com</a>
+            </li>
+            <li>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2"/></svg>
+              <a href="tel:0000000000">0000000000</a>
+            </li>
+          </ul>
+
+          <div class="specialist-actions">
+            <a class="btn btn--outline" href="messages.html">Send message</a>
+            <a class="btn btn--primary" href="appointment-new.html">Book a call</a>
+          </div>
+        </section>
+
+        <!-- Next appointment -->
+        <section class="card appt-card" aria-labelledby="appt-title">
+          <div class="appt-card__head">
+            <h2 class="card__title" id="appt-title">Upcoming appointment</h2>
+            <a class="appt-card__all" href="appointments.html">View all</a>
+          </div>
+          <div data-next-appt></div>
+        </section>
+      </div>
+    </div>
+  </main>
+
+  <template id="applicant-avatar">
+    <span class="avatar-placeholder" aria-hidden="true">
+      <svg viewBox="0 0 44 44" fill="currentColor">
+        <circle cx="22" cy="17" r="8"/>
+        <path d="M6 44c0-9 7.2-15 16-15s16 6 16 15z"/>
+      </svg>
+    </span>
+  </template>
+
+  <script src="js/layout.js"></script>
+  <script src="js/progress.js"></script>
+  <script src="js/uploads-store.js"></script>
+  <script src="js/document-list.js"></script>
+  <script src="js/dashboard.js"></script>
+</body>
+</html>

@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Mortgage Application | Figor</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,400..600&family=Inter:wght@400;500;600;700&family=Manrope:wght@400;500;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0..1,0&icon_names=arrow_back,arrow_forward,assured_workload,cancel,check,check_circle,close,cloud_done,description,domain,edit_document,error,euro,event,expand_more,finance_mode,help,info,library_books,patient_list,upload_file&display=block" rel="stylesheet">
+  <link rel="stylesheet" href="css/styles.css">
+  <link rel="stylesheet" href="css/application.css">
+  <script src="js/brand.js"></script>
+</head>
+<body data-page="application">
+  <div id="site-header"></div>
+
+  <main class="page page--compact">
+    <h1 class="page__title">Mortgage Application</h1>
+    <p class="page__subtitle" id="section-subtitle">Your application details</p>
+
+    <div class="application-grid">
+      <!-- Steps -->
+      <nav aria-label="Application steps">
+        <ol class="steps">
+          <li>
+            <a class="step is-active" href="?section=applicant-detail" data-section="applicant-detail" aria-current="step">
+              <span class="ms step__icon step__icon--flip" aria-hidden="true">patient_list</span>
+              <span class="step__label">Your application details</span>
+              <span class="ring" data-value="46" data-value-2="58" data-value-3="68" data-value-4="94" data-value-5="100"></span>
+            </a>
+          </li>
+          <li>
+            <a class="step" href="?section=documents" data-section="documents">
+              <span class="ms step__icon" aria-hidden="true">library_books</span>
+              <span class="step__label">Your documents</span>
+              <span class="ring" data-value="0"></span>
+            </a>
+          </li>
+          <li data-step="income">
+            <a class="step" href="?section=income" data-section="income">
+              <span class="ms step__icon" aria-hidden="true">euro</span>
+              <span class="step__label">Your income</span>
+              <span class="ring" data-value="0"></span>
+            </a>
+          </li>
+          <li>
+            <a class="step" href="?section=assets-and-savings" data-section="assets-and-savings">
+              <span class="ms step__icon" aria-hidden="true">finance_mode</span>
+              <span class="step__label">Your assets and savings</span>
+              <span class="ring" data-value="0"></span>
+            </a>
+          </li>
+          <li>
+            <a class="step" href="?section=financial-commitments" data-section="financial-commitments">
+              <svg class="step__icon" viewBox="0 0 24 24" width="30" height="30" fill="currentColor" aria-hidden="true">
+                <path d="M3 3h2v16h16v2H3z"/><rect x="7" y="9" width="3" height="10"/><rect x="11.5" y="13" width="3" height="6"/><rect x="16" y="6" width="3" height="13"/>
+              </svg>
+              <span class="step__label">Your financial commitments</span>
+              <span class="ring" data-value="0"></span>
+            </a>
+          </li>
+          <li>
+            <a class="step" href="?section=mortgage-needs" data-section="mortgage-needs">
+              <span class="ms ms--fill step__icon" aria-hidden="true">domain</span>
+              <span class="step__label">Your mortgage needs</span>
+              <span class="ring" data-value="0"></span>
+            </a>
+          </li>
+          <li>
+            <a class="step" href="?section=mortgage-declarations" data-section="mortgage-declarations">
+              <span class="ms ms--fill step__icon" aria-hidden="true">assured_workload</span>
+              <span class="step__label">Your mortgage declaration</span>
+              <span class="ring" data-value="0"></span>
+            </a>
+          </li>
+          <li>
+            <a class="step" href="?section=application-status" data-section="application-status">
+              <span class="ms step__icon" aria-hidden="true">edit_document</span>
+              <span class="step__label">Your application status</span>
+              <span class="ring" data-value="11" data-value-2="19" data-value-3="19" data-value-4="21" data-value-5="27"></span>
+            </a>
+          </li>
+        </ol>
+      </nav>
+
+      <!-- Step 1: Application details -->
+      <section class="form-card" data-section="applicant-detail" aria-labelledby="details-title">
+        <h2 class="form-card__title" id="details-title">Application details</h2>
+        <p class="form-card__desc">Tell us about yourself</p>
+        <p class="form-card__desc" data-substep="1">Please provide your name as it appears on your passport or driving license.</p>
+
+        <hr class="form-card__divider">
+
+        <!-- Part 1: personal details -->
+        <form id="details-form" class="substep substep--1" novalidate>
+          <div class="form-stack">
+            <div class="tf">
+              <input id="first-name" name="firstName" type="text" autocomplete="given-name" value="Tejal" required>
+              <label for="first-name">What is your first name? *</label>
+            </div>
+
+            <div class="tf">
+              <input id="middle-name" name="middleName" type="text" autocomplete="additional-name">
+              <label for="middle-name">What is your middle name?</label>
+            </div>
+
+            <div class="tf">
+              <input id="last-name" name="lastName" type="text" autocomplete="family-name" value="Sakpal" required>
+              <label for="last-name">What is your last name? *</label>
+            </div>
+
+            <div class="form-row--check">
+              <label class="checkbox">
+                <input type="checkbox" id="has-previous-name" name="hasPreviousName">
+                Have you had any previous last name?
+              </label>
+            </div>
+
+            <div class="tf" id="previous-name-field" hidden>
+              <input id="previous-name" name="previousName" type="text">
+              <label for="previous-name">What was your previous last name? *</label>
+            </div>
+
+            <div class="tf">
+              <input id="email" name="email" type="email" autocomplete="email" value="tejal.sakpal@example.com" required>
+              <label for="email">What is your email? *</label>
+            </div>
+
+            <div class="tf">
+              <input id="phone" name="phone" type="tel" autocomplete="tel" value="0000000000" required>
+              <label for="phone">What is your contact number? *</label>
+            </div>
+
+            <div class="tf tf--select">
+              <select id="marital-status" name="maritalStatus" data-options="maritalStatuses" required></select>
+              <label for="marital-status">What is your marital status? *</label>
+            </div>
+
+            <div class="tf tf--date">
+              <input id="dob" name="dob" type="date" autocomplete="bday" required>
+              <label for="dob">What is your date of birth (over 18 years only)?*</label>
+              <span class="ms ms--fill tf__icon" aria-hidden="true">event</span>
+            </div>
+
+            <div class="tf tf--select">
+              <select id="gender" name="gender" data-options="genders" required></select>
+              <label for="gender">What is your gender? *</label>
+            </div>
+
+            <div class="tf tf--select">
+              <select id="employment-type" name="employmentType" data-options="employmentTypes" required></select>
+              <label for="employment-type">What is your primary employment type? *</label>
+            </div>
+          </div>
+
+          <p class="form-note">
+            <span class="ms ms--fill" aria-hidden="true">info</span>
+            <span>Note: If your primary employment is as a director of a company with more than a 20% shareholding, you should select self employed.</span>
+          </p>
+
+          <div class="form-card__footer">
+            <button class="btn btn--primary btn--next" type="submit">
+              Next <span class="ms" aria-hidden="true">arrow_forward</span>
+            </button>
+          </div>
+        </form>
+        <!-- Part 2: residency, citizenship and address -->
+        <form id="details-form-2" class="substep substep--2" novalidate hidden>
+          <div class="form-stack form-stack--lf">
+            <div class="lf">
+              <label for="country-of-birth">What is your country of birth? *</label>
+              <div class="lf__control lf__control--select">
+                <select id="country-of-birth" name="countryOfBirth" data-options="countries" data-default="Ireland" required></select>
+              </div>
+            </div>
+
+            <div class="lf">
+              <label for="country-of-residence">What is your country of residence? *</label>
+              <div class="lf__control lf__control--select">
+                <select id="country-of-residence" name="countryOfResidence" data-options="countries" data-default="Ireland" required></select>
+              </div>
+            </div>
+
+            <div class="lf">
+              <label for="nationality">What is your nationality? *</label>
+              <div class="lf__control lf__control--select">
+                <select id="nationality" name="nationality" data-options="nationalities" data-default="Irish" required></select>
+              </div>
+            </div>
+
+            <div class="residency" role="group" aria-labelledby="residency-label">
+              <span class="lf-group__label" id="residency-label">How long have you been a resident?</span>
+              <label class="switch">
+                <input type="checkbox" role="switch" id="all-my-life" name="allMyLife" checked>
+                All my life
+              </label>
+              <div class="form-grid-2">
+                <div class="tf">
+                  <input id="residency-years" name="residencyYears" type="text" inputmode="numeric" maxlength="3" value="25">
+                  <label for="residency-years">Years</label>
+                </div>
+                <div class="tf tf--select">
+                  <select id="residency-months" name="residencyMonths" data-options="months" data-default="5"></select>
+                  <label for="residency-months">Months</label>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="yes-no" role="radiogroup" aria-labelledby="citizenship-label" data-required>
+            <p class="yes-no__question" id="citizenship-label">Do you have Irish citizenship?</p>
+            <div class="yes-no__options">
+              <label class="yes-no__option"><input type="radio" name="irishCitizen" value="yes" checked><span>Yes</span></label>
+              <label class="yes-no__option"><input type="radio" name="irishCitizen" value="no"><span>No</span></label>
+            </div>
+          </div>
+
+          <div class="form-stack form-stack--lf citizenship-extra" id="citizenship-extra" hidden>
+            <div class="lf">
+              <label for="citizen-type">Are you UK, EU, Non EU citizen? *</label>
+              <div class="lf__control lf__control--select">
+                <select id="citizen-type" name="citizenType" data-options="citizenTypes" required></select>
+              </div>
+            </div>
+
+            <div class="lf" id="work-visa-field">
+              <label for="work-visa">Do you have a work VISA? *</label>
+              <div class="lf__control lf__control--select">
+                <select id="work-visa" name="workVisa" data-options="workVisas" required></select>
+              </div>
+            </div>
+          </div>
+
+          <h3 class="form-heading">What is your current address?</h3>
+
+          <div class="form-stack form-stack--lf">
+            <div class="lf">
+              <label for="eircode">Eircode</label>
+              <div class="lf__control">
+                <input id="eircode" name="eircode" type="text" autocomplete="postal-code" maxlength="8">
+              </div>
+            </div>
+
+            <div class="lf">
+              <label for="address-1">Address line 1 *</label>
+              <div class="lf__control">
+                <input id="address-1" name="address1" type="text" autocomplete="address-line1" required>
+              </div>
+            </div>
+
+            <div class="lf">
+              <label for="address-2">Address line 2</label>
+              <div class="lf__control">
+                <input id="address-2" name="address2" type="text" autocomplete="address-line2">
+              </div>
+            </div>
+
+            <div class="lf">
+              <label for="address-3">Address line 3</label>
+              <div class="lf__control">
+                <input id="address-3" name="address3" type="text" autocomplete="address-line3">
+              </div>
+            </div>
+
+            <div class="lf">
+              <label for="address-country">Country *</label>
+              <div class="lf__control lf__control--select">
+                <select id="address-country" name="addressCountry" data-options="countries" data-default="Ireland" autocomplete="country-name" required></select>
+              </div>
+            </div>
+
+            <div class="lf">
+              <label for="address-county">County *</label>
+              <div class="lf__control lf__control--select">
+                <select id="address-county" name="addressCounty" data-options="counties" required></select>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-card__footer">
+            <button class="btn btn--back" type="button" data-action="back">
+              <span class="ms" aria-hidden="true">arrow_back</span> Back
+            </button>
+            <button class="btn btn--primary btn--next" type="submit">
+              Next <span class="ms" aria-hidden="true">arrow_forward</span>
+            </button>
+          </div>
+        </form>
+
+        <!-- Part 3: time at current address -->
+        <form id="details-form-3" class="substep substep--3" novalidate hidden>
+          <div class="residency residency--address" role="group" aria-labelledby="lived-label">
+            <p class="form-question" id="lived-label">How long have you lived there? *</p>
+            <label class="switch">
+              <input type="checkbox" role="switch" id="address-all-my-life" name="addressAllMyLife" checked>
+              All my life
+            </label>
+            <div class="form-grid-2">
+              <div class="tf">
+                <input id="address-years" name="addressYears" type="text" inputmode="numeric" maxlength="3" value="25" required>
+                <label for="address-years">Years</label>
+              </div>
+              <div class="tf tf--select">
+                <select id="address-months" name="addressMonths" data-options="months" data-default="5"></select>
+                <label for="address-months">Months</label>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-card__footer">
+            <button class="btn btn--back" type="button" data-action="back">
+              <span class="ms" aria-hidden="true">arrow_back</span> Back
+            </button>
+            <button class="btn btn--primary btn--next" type="submit">
+              Next <span class="ms" aria-hidden="true">arrow_forward</span>
+            </button>
+          </div>
+        </form>
+
+        <!-- Part 4: tax residency and living situation -->
+        <form id="details-form-4" class="substep substep--4" novalidate hidden>
+          <div class="yes-no" role="radiogroup" aria-labelledby="tax-ireland-label" data-required>
+            <p class="yes-no__question" id="tax-ireland-label">Are you a tax resident of Ireland?</p>
+            <div class="yes-no__options">
+              <label class="yes-no__option"><input type="radio" name="taxResidentIreland" value="yes" checked><span>Yes</span></label>
+              <label class="yes-no__option"><input type="radio" name="taxResidentIreland" value="no"><span>No</span></label>
+            </div>
+          </div>
+
+          <div class="yes-no" role="radiogroup" aria-labelledby="us-citizen-label" data-required>
+            <p class="yes-no__question" id="us-citizen-label">Are you a US citizen?</p>
+            <div class="yes-no__options">
+              <label class="yes-no__option"><input type="radio" name="usCitizen" value="yes"><span>Yes</span></label>
+              <label class="yes-no__option"><input type="radio" name="usCitizen" value="no" checked><span>No</span></label>
+            </div>
+          </div>
+
+          <div class="yes-no" role="radiogroup" aria-labelledby="tax-other-label" data-required>
+            <p class="yes-no__question" id="tax-other-label">Are you a tax resident in any other country outside of Ireland?</p>
+            <div class="yes-no__options">
+              <label class="yes-no__option"><input type="radio" name="taxResidentOther" value="yes"><span>Yes</span></label>
+              <label class="yes-no__option"><input type="radio" name="taxResidentOther" value="no" checked><span>No</span></label>
+            </div>
+          </div>
+
+          <h3 class="form-subheading">How would you describe your current living situation?</h3>
+
+          <div class="lf">
+            <label for="residence-situation">Residence Situation *</label>
+            <div class="lf__control lf__control--select">
+              <select id="residence-situation" name="residenceSituation" data-options="residenceSituations" required></select>
+            </div>
+          </div>
+
+          <div class="form-card__footer">
+            <button class="btn btn--back" type="button" data-action="back">
+              <span class="ms" aria-hidden="true">arrow_back</span> Back
+            </button>
+            <button class="btn btn--primary btn--next" type="submit">
+              Next <span class="ms" aria-hidden="true">arrow_forward</span>
+            </button>
+          </div>
+        </form>
+      </section>
+
+      <!-- Your documents -->
+      <section class="form-card docs-card" data-section="documents" aria-labelledby="documents-title" hidden>
+        <h2 class="form-card__title" id="documents-title">Your Documents</h2>
+        <p class="docs-card__desc">Please upload your relevant documents</p>
+        <div class="docs-overview" id="docs-overview" aria-label="Document progress"></div>
+
+        <div class="docs-list" id="docs-list"></div>
+
+        <div class="form-card__footer">
+          <button class="btn btn--back" type="button" data-docs="back" hidden>
+            <span class="ms" aria-hidden="true">arrow_back</span> Back
+          </button>
+          <button class="btn btn--primary btn--next" type="button" data-docs="next">
+            Next <span class="ms" aria-hidden="true">arrow_forward</span>
+          </button>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <!-- Full-screen upload dialog -->
+  <div class="upload-dialog" id="upload-dialog" role="dialog" aria-modal="true" aria-labelledby="upload-title" hidden>
+    <header class="upload-dialog__bar">
+      <button class="upload-dialog__close" type="button" data-upload="cancel" aria-label="Back to Your documents" title="Back to Your documents">
+        <span class="ms" aria-hidden="true">arrow_back</span>
+      </button>
+      <div class="upload-dialog__heading">
+        <p class="upload-dialog__eyebrow" id="upload-step">Upload document</p>
+        <h2 class="upload-dialog__title" id="upload-title"></h2>
+      </div>
+      <span class="doc-status upload-dialog__status" id="upload-status"></span>
+    </header>
+    <div class="upload-dialog__body">
+      <div class="upload-dialog__inner">
+        <!-- What's needed -->
+        <section class="upload-guide" aria-labelledby="upload-guide-title">
+          <h3 class="upload-guide__eyebrow" id="upload-guide-title">What we need</h3>
+          <p class="upload-instruction" id="upload-instruction"></p>
+          <div class="upload-rules">
+            <p class="upload-rules__title">Before you upload</p>
+            <ul>
+              <li><span class="ms" aria-hidden="true">check_circle</span>Original PDFs or scanned PDFs accepted</li>
+              <li class="upload-rules__no"><span class="ms" aria-hidden="true">cancel</span>Photos of documents are not accepted by Irish Banks</li>
+              <li><span class="ms" aria-hidden="true">check_circle</span>Please ensure all 4 corners of the document are included</li>
+            </ul>
+          </div>
+          <button class="upload-guide__help" type="button" id="upload-help">
+            <span class="ms" aria-hidden="true">help</span>
+            Not sure what to upload? Ask the assistant
+          </button>
+        </section>
+
+        <!-- Upload + files -->
+        <section class="upload-panel" aria-label="Upload files">
+          <label class="dropzone" id="upload-dropzone">
+            <span class="dropzone__icon"><span class="ms" aria-hidden="true">upload_file</span></span>
+            <span class="dropzone__title">Choose files to upload</span>
+            <span class="dropzone__text dropzone__text--pointer">Drag and drop files here, or <span class="dropzone__link">browse your computer</span></span>
+            <span class="dropzone__text dropzone__text--touch">Tap to choose files from your phone</span>
+            <span class="dropzone__hint" id="upload-hint">PDF files</span>
+            <input type="file" id="upload-input" accept="application/pdf" multiple class="sr-only">
+          </label>
+          <p class="upload-rejected" id="upload-rejected" role="alert" hidden></p>
+
+          <div class="upload-files__head">
+            <h3 class="upload-files__title">Your files <span class="upload-files__count" id="upload-count">0</span></h3>
+            <p class="upload-saved"><span class="ms" aria-hidden="true">cloud_done</span>Saved as soon as you add them</p>
+          </div>
+          <ul class="upload-files" id="upload-files"></ul>
+
+          <div class="upload-next" id="upload-next" hidden>
+            <p class="upload-next__text" id="upload-next-text"></p>
+            <button class="btn btn--primary upload-next__btn" type="button" id="upload-next-btn">
+              <span id="upload-next-label">Next document</span>
+              <span class="ms" aria-hidden="true">arrow_forward</span>
+            </button>
+          </div>
+        </section>
+      </div>
+    </div>
+  </div>
+
+  <script src="js/layout.js"></script>
+  <script src="js/progress.js"></script>
+  <script src="js/uploads-store.js"></script>
+  <script src="js/document-list.js"></script>
+  <script src="js/documents.js"></script>
+  <script src="js/sections.js"></script>
+  <script src="js/application.js"></script>
+</body>
+</html>

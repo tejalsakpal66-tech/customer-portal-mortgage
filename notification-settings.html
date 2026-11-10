@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Notification Settings | Figor</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,400..600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/styles.css">
+  <link rel="stylesheet" href="css/profile.css">
+  <script src="js/brand.js"></script>
+</head>
+<body data-page="profile" data-account-page="preferences">
+  <div id="site-header"></div>
+
+  <main class="page page--compact">
+    <div class="profile-head">
+      <h1 class="page__title profile-title">My account</h1>
+      <p class="profile-lede">Your details, consents, data and sign-in settings.</p>
+    </div>
+
+    <div class="profile-grid">
+      <aside class="profile-side" data-account-side></aside>
+
+      <div class="profile-sections">
+        <section class="profile-card" id="preferences" aria-labelledby="prefs-title">
+          <header class="profile-card__head">
+            <div>
+              <h2 class="profile-card__title" id="prefs-title">Notifications</h2>
+              <p class="profile-card__desc">Choose how and when we get in touch. Changes save automatically.</p>
+            </div>
+          </header>
+
+          <div class="pref-group">
+            <h3 class="pref-group__title">How we contact you</h3>
+            <label class="pref">
+              <span class="pref__text"><span class="pref__label">Email</span><span class="pref__hint" data-pref-email-hint>Sent to tejal.sakpal@example.com</span></span>
+              <input class="switch" type="checkbox" data-pref="email">
+            </label>
+            <label class="pref">
+              <span class="pref__text"><span class="pref__label">Text messages</span><span class="pref__hint">Short reminders to your mobile</span></span>
+              <input class="switch" type="checkbox" data-pref="sms">
+            </label>
+          </div>
+
+          <div class="pref-group">
+            <h3 class="pref-group__title">What we tell you about</h3>
+            <label class="pref">
+              <span class="pref__text"><span class="pref__label">Documents and requests</span><span class="pref__hint">When something is needed or has been checked</span></span>
+              <input class="switch" type="checkbox" data-pref="documents">
+            </label>
+            <label class="pref">
+              <span class="pref__text"><span class="pref__label">Appointment reminders</span><span class="pref__hint">The day before and an hour before each call</span></span>
+              <input class="switch" type="checkbox" data-pref="appointments">
+            </label>
+            <label class="pref">
+              <span class="pref__text"><span class="pref__label">Messages from your specialist</span><span class="pref__hint">When Tejal replies to you</span></span>
+              <input class="switch" type="checkbox" data-pref="messages">
+            </label>
+          </div>
+        </section>
+      </div>
+    </div>
+  </main>
+
+  <div class="profile-toast" role="status" aria-live="polite" data-toast hidden></div>
+
+  <script src="js/layout.js"></script>
+  <script src="js/progress.js"></script>
+  <script src="js/profile.js"></script>
+</body>
+</html>

@@ -1,0 +1,356 @@
+{
+  "detector": {
+    "ignoreRules": [],
+    "ignoreFiles": [],
+    "ignoreValues": [
+      {
+        "rule": "overused-font",
+        "value": "inter",
+        "createdAt": "2026-11-05T06:48:23.572Z",
+        "reason": "User asked for an exact replica of their portal screenshots; Inter was identified by measuring those screenshots"
+      },
+      {
+        "rule": "flat-type-hierarchy",
+        "value": "*",
+        "files": [
+          "application.html"
+        ],
+        "createdAt": "2026-11-05T06:48:23.587Z",
+        "reason": "User asked for an exact replica of their screenshots; type sizes were measured from them"
+      },
+      {
+        "rule": "wide-tracking",
+        "value": "*",
+        "files": [
+          "index.html"
+        ],
+        "createdAt": "2026-11-05T07:11:04.566Z",
+        "reason": "User asked for an exact replica of their screenshots; the wide letter spacing on nav and button labels was measured from them"
+      },
+      {
+        "rule": "repeated-container-text",
+        "value": "*",
+        "files": [
+          "application.html"
+        ],
+        "createdAt": "2026-11-05T07:13:40.714Z",
+        "reason": "False positive: the card holds three alternative parts of step 1 and only one is visible at a time, so Next/Back/Years/Months never appear more than once on screen"
+      },
+      {
+        "rule": "pulsing-dot",
+        "value": "*",
+        "files": [
+          "index.html"
+        ],
+        "createdAt": "2026-11-05T09:33:32.573Z",
+        "reason": "False positive: the animated dots are the AI Assistant's typing indicator, shown only while a reply is pending, labelled 'Assistant is typing', and disabled under prefers-reduced-motion"
+      },
+      {
+        "rule": "pulsing-dot",
+        "value": "*",
+        "files": [
+          "application.html"
+        ],
+        "createdAt": "2026-11-05T09:33:32.690Z",
+        "reason": "False positive: the animated dots are the AI Assistant's typing indicator, shown only while a reply is pending, labelled 'Assistant is typing', and disabled under prefers-reduced-motion"
+      },
+      {
+        "rule": "pulsing-dot",
+        "value": "*",
+        "files": [
+          "documents.html"
+        ],
+        "createdAt": "2026-11-05T09:38:29.560Z",
+        "reason": "False positive: the animated dots are the AI Assistant's typing indicator, shown only while a reply is pending, labelled 'Assistant is typing', and disabled under prefers-reduced-motion"
+      },
+      {
+        "rule": "flat-type-hierarchy",
+        "value": "*",
+        "files": [
+          "documents.html"
+        ],
+        "createdAt": "2026-11-05T09:38:29.589Z",
+        "reason": "User asked to replicate the live portal; type sizes on the Documents page were measured from the portal's own CSS"
+      },
+      {
+        "rule": "cream-palette",
+        "value": "*",
+        "files": [
+          "index.html"
+        ],
+        "createdAt": "2026-11-05T09:52:21.031Z",
+        "reason": "Sanctioned: the cream background comes from the user's Figor brand board (colour palette swatches), applied at the user's request"
+      },
+      {
+        "rule": "cream-palette",
+        "value": "*",
+        "files": [
+          "application.html"
+        ],
+        "createdAt": "2026-11-05T09:52:21.053Z",
+        "reason": "Sanctioned: the cream background comes from the user's Figor brand board (colour palette swatches), applied at the user's request"
+      },
+      {
+        "rule": "cream-palette",
+        "value": "*",
+        "files": [
+          "documents.html"
+        ],
+        "createdAt": "2026-11-05T09:52:21.075Z",
+        "reason": "Sanctioned: the cream background comes from the user's Figor brand board (colour palette swatches), applied at the user's request"
+      },
+      {
+        "rule": "cream-palette",
+        "value": "*",
+        "files": [
+          "appointments.html"
+        ],
+        "createdAt": "2026-11-05T09:52:21.097Z",
+        "reason": "Sanctioned: the cream background comes from the user's Figor brand board (colour palette swatches), applied at the user's request"
+      },
+      {
+        "rule": "cream-palette",
+        "value": "*",
+        "files": [
+          "appointment-new.html"
+        ],
+        "createdAt": "2026-11-05T09:52:21.119Z",
+        "reason": "Sanctioned: the cream background comes from the user's Figor brand board (colour palette swatches), applied at the user's request"
+      },
+      {
+        "rule": "pulsing-dot",
+        "value": "*",
+        "files": [
+          "appointments.html"
+        ],
+        "createdAt": "2026-11-05T09:52:21.140Z",
+        "reason": "False positive: the animated dots are the AI Assistant's typing indicator, shown only while a reply is pending, labelled 'Assistant is typing', and disabled under prefers-reduced-motion"
+      },
+      {
+        "rule": "pulsing-dot",
+        "value": "*",
+        "files": [
+          "appointment-new.html"
+        ],
+        "createdAt": "2026-11-05T09:52:21.161Z",
+        "reason": "False positive: the animated dots are the AI Assistant's typing indicator, shown only while a reply is pending, labelled 'Assistant is typing', and disabled under prefers-reduced-motion"
+      },
+      {
+        "rule": "cream-palette",
+        "value": "*",
+        "files": [
+          "messages.html"
+        ],
+        "createdAt": "2026-11-05T12:18:49.546Z",
+        "reason": "Sanctioned: the cream background comes from the user's Figor brand board, applied at the user's request"
+      },
+      {
+        "rule": "pulsing-dot",
+        "value": "*",
+        "files": [
+          "messages.html"
+        ],
+        "createdAt": "2026-11-05T12:18:49.570Z",
+        "reason": "False positive: AI Assistant typing indicator, shown only while a reply is pending, labelled, disabled under prefers-reduced-motion"
+      },
+      {
+        "rule": "cramped-padding",
+        "value": "*",
+        "files": [
+          "messages.html"
+        ],
+        "createdAt": "2026-11-05T13:25:52.154Z",
+        "reason": "msgs-card is a split-view frame; the sidebar and conversation panes inside it carry their own padding"
+      },
+      {
+        "rule": "cream-palette",
+        "value": "*",
+        "files": [
+          "notifications.html"
+        ],
+        "createdAt": "2026-11-06T08:53:14.573Z",
+        "reason": "Brand board Soft Cream (#FAF6F1) page background"
+      },
+      {
+        "rule": "pulsing-dot",
+        "value": "*",
+        "files": [
+          "notifications.html"
+        ],
+        "createdAt": "2026-11-06T08:53:14.597Z",
+        "reason": "Assistant typing indicator, shown only while a reply is pending"
+      },
+      {
+        "rule": "cream-palette",
+        "value": "*",
+        "files": [
+          "profile.html"
+        ],
+        "createdAt": "2026-11-06T08:53:14.622Z",
+        "reason": "Brand board Soft Cream (#FAF6F1) page background"
+      },
+      {
+        "rule": "pulsing-dot",
+        "value": "*",
+        "files": [
+          "profile.html"
+        ],
+        "createdAt": "2026-11-06T08:53:14.645Z",
+        "reason": "Assistant typing indicator, shown only while a reply is pending"
+      },
+      {
+        "rule": "cream-palette",
+        "value": "*",
+        "files": [
+          "logout.html"
+        ],
+        "createdAt": "2026-11-06T09:03:47.091Z",
+        "reason": "Brand board Soft Cream (#FAF6F1) page background"
+      },
+      {
+        "rule": "pulsing-dot",
+        "value": "*",
+        "files": [
+          "logout.html"
+        ],
+        "createdAt": "2026-11-06T09:03:54.112Z",
+        "reason": "Shared stylesheet rule for the assistant typing indicator; the assistant isn't on this page"
+      },
+      {
+        "rule": "cream-palette",
+        "value": "*",
+        "files": [
+          "consents.html"
+        ],
+        "createdAt": "2026-11-06T13:24:20.415Z",
+        "reason": "Brand board Soft Cream (#FAF6F1) page background"
+      },
+      {
+        "rule": "pulsing-dot",
+        "value": "*",
+        "files": [
+          "consents.html"
+        ],
+        "createdAt": "2026-11-06T13:24:20.439Z",
+        "reason": "Assistant typing indicator, shown only while a reply is pending"
+      },
+      {
+        "rule": "cream-palette",
+        "value": "*",
+        "files": [
+          "notification-settings.html"
+        ],
+        "createdAt": "2026-11-06T13:24:20.462Z",
+        "reason": "Brand board Soft Cream (#FAF6F1) page background"
+      },
+      {
+        "rule": "pulsing-dot",
+        "value": "*",
+        "files": [
+          "notification-settings.html"
+        ],
+        "createdAt": "2026-11-06T13:24:20.487Z",
+        "reason": "Assistant typing indicator, shown only while a reply is pending"
+      },
+      {
+        "rule": "cream-palette",
+        "value": "*",
+        "files": [
+          "your-data.html"
+        ],
+        "createdAt": "2026-11-06T13:24:20.521Z",
+        "reason": "Brand board Soft Cream (#FAF6F1) page background"
+      },
+      {
+        "rule": "pulsing-dot",
+        "value": "*",
+        "files": [
+          "your-data.html"
+        ],
+        "createdAt": "2026-11-06T13:24:20.545Z",
+        "reason": "Assistant typing indicator, shown only while a reply is pending"
+      },
+      {
+        "rule": "cream-palette",
+        "value": "*",
+        "files": [
+          "password.html"
+        ],
+        "createdAt": "2026-11-06T13:24:20.572Z",
+        "reason": "Brand board Soft Cream (#FAF6F1) page background"
+      },
+      {
+        "rule": "pulsing-dot",
+        "value": "*",
+        "files": [
+          "password.html"
+        ],
+        "createdAt": "2026-11-06T13:24:20.596Z",
+        "reason": "Assistant typing indicator, shown only while a reply is pending"
+      },
+      {
+        "rule": "cramped-padding",
+        "value": "*",
+        "files": [
+          "application.html"
+        ],
+        "createdAt": "2026-11-09T16:52:10.641Z",
+        "reason": "upload-rules inside the upload guide card has no border (border: 0 override); only a divider line above it, inside the padded card"
+      },
+      {
+        "rule": "pulsing-dot",
+        "value": "*",
+        "files": [
+          "signin.html"
+        ],
+        "createdAt": "2026-11-10T18:14:54.870Z",
+        "reason": "Shared stylesheet rule for the assistant typing indicator; the assistant isn't on signed-out pages"
+      },
+      {
+        "rule": "pulsing-dot",
+        "value": "*",
+        "files": [
+          "signup.html"
+        ],
+        "createdAt": "2026-11-10T18:14:54.884Z",
+        "reason": "Shared stylesheet rule for the assistant typing indicator; the assistant isn't on signed-out pages"
+      },
+      {
+        "rule": "pulsing-dot",
+        "value": "*",
+        "files": [
+          "forgot-password.html"
+        ],
+        "createdAt": "2026-11-10T18:14:54.898Z",
+        "reason": "Shared stylesheet rule for the assistant typing indicator; the assistant isn't on signed-out pages"
+      },
+      {
+        "rule": "icon-tile-stack",
+        "value": "*",
+        "files": [
+          "forgot-password.html"
+        ],
+        "createdAt": "2026-11-10T18:14:54.910Z",
+        "reason": "Matches the live portal's forgot-password design (key icon tile above the heading)"
+      },
+      {
+        "rule": "pulsing-dot",
+        "value": "*",
+        "files": [
+          "reset-password.html"
+        ],
+        "createdAt": "2026-11-10T18:18:09.912Z",
+        "reason": "Shared stylesheet rule for the assistant typing indicator; the assistant isn't on signed-out pages"
+      },
+      {
+        "rule": "icon-tile-stack",
+        "value": "*",
+        "files": [
+          "reset-password.html"
+        ],
+        "createdAt": "2026-11-10T18:18:09.925Z",
+        "reason": "Same pattern as the live portal's forgot-password page (icon tile above the heading)"
+      }
+    ]
+  }
+}

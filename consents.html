@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>My Consents | Figor</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,400..600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/styles.css">
+  <link rel="stylesheet" href="css/profile.css">
+  <script src="js/brand.js"></script>
+</head>
+<body data-page="profile" data-account-page="consents">
+  <div id="site-header"></div>
+
+  <main class="page page--compact">
+    <div class="profile-head">
+      <h1 class="page__title profile-title">My account</h1>
+      <p class="profile-lede">Your details, consents, data and sign-in settings.</p>
+    </div>
+
+    <div class="profile-grid">
+      <aside class="profile-side" data-account-side></aside>
+
+      <div class="profile-sections">
+        <section class="profile-card" id="consents" aria-labelledby="consents-title">
+          <header class="profile-card__head">
+            <div>
+              <h2 class="profile-card__title" id="consents-title">My consents</h2>
+              <p class="profile-card__desc">How we look after your information, and the choices you've made.</p>
+            </div>
+          </header>
+
+          <div class="consent-info">
+            <div class="consent-info__item">
+              <span class="consent-info__icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M7 18a4.5 4.5 0 0 1-.8-8.9 6 6 0 0 1 11.6 0A4.5 4.5 0 0 1 17 18z"/><rect x="9.5" y="12.5" width="5" height="4" rx="1"/><path d="M10.5 12.5v-1a1.5 1.5 0 0 1 3 0v1"/></svg>
+              </span>
+              <p>To enhance the customer experience, the information gathered during this process will be securely stored on a cloud platform hosted by an external provider. All data will be kept within the European Economic Area (EEA). For more details on how third parties process this information, please consult our <a href="documents.html">Data Protection Notice</a>.</p>
+            </div>
+            <div class="consent-info__item">
+              <span class="consent-info__icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5"/><path d="M9 13h6M9 17h4"/></svg>
+              </span>
+              <p>Please view our <a href="documents.html">Terms of Business</a> to understand our services, fees, and your rights as a client by visiting the Documents section of the Customer Portal. You will also find our <a href="documents.html">Privacy Policy</a> there, which sets out how we protect and use your personal information.</p>
+            </div>
+          </div>
+
+          <div class="consent-block">
+            <h3 class="pref-group__title">Marketing</h3>
+            <p class="consent-status" data-marketing-status>
+              <span class="consent-status__dot" aria-hidden="true"></span>
+              <span data-marketing-status-text>No marketing choice has been recorded through this consent control.</span>
+            </p>
+            <label class="consent-check">
+              <input class="consent-check__input" type="checkbox" data-marketing>
+              <span class="consent-check__box" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>
+              </span>
+              <span class="consent-check__text">I consent to receiving marketing communications from <span data-brand-legal-name>Figor</span> and its affiliated entities. I understand that these communications may include promotional content, newsletters and information about products and services. I acknowledge that my consent is voluntary and I can withdraw it at any time by updating my communication preferences in the Settings section of the Customer Portal.</span>
+            </label>
+            <p class="consent-saved">
+              <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 18a4.5 4.5 0 0 1-.8-8.9 6 6 0 0 1 11.6 0A4.5 4.5 0 0 1 17 18z"/><path d="M9.5 13.5l2 2 3.5-3.5"/></svg>
+              Your choice is saved as soon as you tick or untick the box.
+            </p>
+          </div>
+
+          <form class="consent-block" data-contact-form novalidate>
+            <fieldset class="contact-methods">
+              <legend class="pref-group__title">My preferred method of contact is:</legend>
+              <div class="contact-methods__options">
+                <label class="contact-chip">
+                  <input type="checkbox" name="contact" value="email">
+                  <span class="contact-chip__box" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></span>
+                  <svg class="contact-chip__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3.5 6.5l8.5 6 8.5-6"/></svg>
+                  Email
+                </label>
+                <label class="contact-chip">
+                  <input type="checkbox" name="contact" value="phone">
+                  <span class="contact-chip__box" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></span>
+                  <svg class="contact-chip__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2"/></svg>
+                  Phone
+                </label>
+                <label class="contact-chip">
+                  <input type="checkbox" name="contact" value="post">
+                  <span class="contact-chip__box" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></span>
+                  <svg class="contact-chip__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 9.5L12 4l8 5.5V19a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1z"/><path d="M4 10l8 5 8-5"/></svg>
+                  Post
+                </label>
+              </div>
+            </fieldset>
+            <div class="details-form__actions">
+              <button class="btn btn--text" type="button" data-contact-cancel disabled>Cancel</button>
+              <button class="btn btn--primary" type="submit" data-contact-save disabled>Save</button>
+            </div>
+          </form>
+        </section>
+      </div>
+    </div>
+  </main>
+
+  <div class="profile-toast" role="status" aria-live="polite" data-toast hidden></div>
+
+  <script src="js/layout.js"></script>
+  <script src="js/progress.js"></script>
+  <script src="js/profile.js"></script>
+</body>
+</html>

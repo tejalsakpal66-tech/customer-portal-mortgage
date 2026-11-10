@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Your Data | Figor</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,400..600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/styles.css">
+  <link rel="stylesheet" href="css/profile.css">
+  <script src="js/brand.js"></script>
+</head>
+<body data-page="profile" data-account-page="data">
+  <div id="site-header"></div>
+
+  <main class="page page--compact">
+    <div class="profile-head">
+      <h1 class="page__title profile-title">My account</h1>
+      <p class="profile-lede">Your details, consents, data and sign-in settings.</p>
+    </div>
+
+    <div class="profile-grid">
+      <aside class="profile-side" data-account-side></aside>
+
+      <div class="profile-sections">
+        <section class="profile-card" id="data" aria-labelledby="data-title">
+          <header class="profile-card__head">
+            <div>
+              <h2 class="profile-card__title" id="data-title">Your data</h2>
+              <p class="profile-card__desc">What <span data-brand-name>Figor</span> holds about you, and your options under data protection law.</p>
+            </div>
+          </header>
+
+          <ul class="data-list" data-data-list></ul>
+
+          <div class="data-actions">
+            <div class="data-action">
+              <div class="data-action__text">
+                <p class="data-action__title">Download a copy</p>
+                <p class="data-action__desc">Everything above in one file you can keep.</p>
+              </div>
+              <button class="btn btn--outline profile-card__action" type="button" data-download-data>
+                <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4v12M7 11l5 5 5-5"/><path d="M4 20h16"/></svg>
+                Download my data
+              </button>
+            </div>
+
+            <div class="data-action">
+              <div class="data-action__text">
+                <p class="data-action__title">Delete my account</p>
+                <p class="data-action__desc" data-deletion-desc>Ask us to close your account and erase your data.</p>
+              </div>
+              <button class="btn btn--outline profile-card__action data-action__danger" type="button" data-request-deletion>Request deletion</button>
+            </div>
+
+            <div class="deletion-confirm" data-deletion-confirm hidden>
+              <p class="deletion-confirm__title">Request account deletion?</p>
+              <p>This will also withdraw your mortgage application. Your specialist will contact you to confirm before anything is deleted.</p>
+              <div class="deletion-confirm__actions">
+                <button class="btn btn--text" type="button" data-deletion-cancel>Keep my account</button>
+                <button class="btn deletion-confirm__send" type="button" data-deletion-send>Send request</button>
+              </div>
+            </div>
+          </div>
+        </section>
+      </div>
+    </div>
+  </main>
+
+  <div class="profile-toast" role="status" aria-live="polite" data-toast hidden></div>
+
+  <script src="js/layout.js"></script>
+  <script src="js/progress.js"></script>
+  <script src="js/uploads-store.js"></script>
+  <script src="js/profile.js"></script>
+</body>
+</html>

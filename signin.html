@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Sign in | Figor</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,400..600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/styles.css">
+  <link rel="stylesheet" href="css/auth.css">
+  <script src="js/brand.js"></script>
+</head>
+<body class="auth-layout">
+  <main class="auth">
+    <img class="auth__logo" src="assets/brand/figor-logo.svg" alt="Figor" data-brand-logo>
+
+    <section class="auth-card" aria-labelledby="auth-title">
+      <h1 class="auth-card__title" id="auth-title">Log into your account</h1>
+      <p class="auth-card__lede">Welcome back! Please enter your details.</p>
+
+      <form class="auth-form" data-auth="signin" novalidate>
+        <div class="auth-field">
+          <label for="signin-email">Email</label>
+          <div class="auth-input">
+            <input id="signin-email" name="email" type="email" autocomplete="email" placeholder="Enter your email" required>
+          </div>
+        </div>
+
+        <div class="auth-field">
+          <div class="auth-field__label-row">
+            <label for="signin-password">Password</label>
+            <a class="auth-link auth-link--quiet" href="forgot-password.html">Forgot password?</a>
+          </div>
+          <div class="auth-input auth-input--password">
+            <input id="signin-password" name="password" type="password" autocomplete="current-password" placeholder="Enter your password" required>
+            <button class="auth-reveal" type="button" aria-label="Show password" aria-pressed="false">
+                <svg class="icon-show" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2.5 12S6 5.5 12 5.5 21.5 12 21.5 12 18 18.5 12 18.5 2.5 12 2.5 12z"/><circle cx="12" cy="12" r="2.8"/></svg>
+                <svg class="icon-hide" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 3l18 18"/><path d="M10.6 5.6A9.7 9.7 0 0 1 12 5.5c6 0 9.5 6.5 9.5 6.5a17 17 0 0 1-3 3.8M6.6 6.6C3.9 8.3 2.5 12 2.5 12S6 18.5 12 18.5c1.6 0 3-.4 4.3-1.1"/><path d="M9.9 9.9a2.8 2.8 0 0 0 4.2 4.2"/></svg>
+              </button>
+          </div>
+        </div>
+
+        <button class="btn btn--primary auth-submit" type="submit">Sign in</button>
+      </form>
+
+      <p class="auth-card__footer">Don't have an account? <a class="auth-link" href="signup.html">Register</a></p>
+    </section>
+  </main>
+
+  <div class="auth-visual" aria-hidden="true"></div>
+
+  <script src="js/auth.js"></script>
+</body>
+</html>

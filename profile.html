@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>My Account | Figor</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,400..600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/styles.css">
+  <link rel="stylesheet" href="css/profile.css">
+  <script src="js/brand.js"></script>
+</head>
+<body data-page="profile" data-account-page="details">
+  <div id="site-header"></div>
+
+  <main class="page page--compact">
+    <div class="profile-head">
+      <h1 class="page__title profile-title">My account</h1>
+      <p class="profile-lede">Your details, consents, data and sign-in settings.</p>
+    </div>
+
+    <div class="profile-grid">
+      <aside class="profile-side" data-account-side></aside>
+
+      <div class="profile-sections">
+        <section class="profile-card" id="details" aria-labelledby="details-title">
+          <header class="profile-card__head">
+            <div>
+              <h2 class="profile-card__title" id="details-title">Account details</h2>
+              <p class="profile-card__desc" data-details-desc>Your personal details and how you appear on <span data-brand-name>Figor</span>.</p>
+            </div>
+            <button class="btn btn--outline profile-card__action" type="button" data-edit-details>
+              <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 20h4L19 9a2.8 2.8 0 0 0-4-4L4 16z"/><path d="M13.5 6.5l4 4"/></svg>
+              Edit
+            </button>
+          </header>
+
+          <dl class="details-view" data-details-view></dl>
+
+          <form class="details-form" data-details-form novalidate hidden>
+            <div class="form-row">
+              <div class="form-row__label"><span id="name-label">Name</span></div>
+              <div class="form-row__field form-row__field--pair" role="group" aria-labelledby="name-label">
+                <div class="profile-field">
+                  <label class="sr-only" for="pf-first">First name</label>
+                  <input id="pf-first" name="firstName" type="text" autocomplete="given-name" placeholder="First name" required>
+                </div>
+                <div class="profile-field">
+                  <label class="sr-only" for="pf-last">Last name</label>
+                  <input id="pf-last" name="lastName" type="text" autocomplete="family-name" placeholder="Last name" required>
+                </div>
+              </div>
+            </div>
+
+            <div class="form-row">
+              <div class="form-row__label"><label for="pf-email">Email address</label></div>
+              <div class="form-row__field">
+                <div class="profile-field profile-field--icon">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3.5 6.5l8.5 6 8.5-6"/></svg>
+                  <input id="pf-email" name="email" type="email" autocomplete="email" required>
+                </div>
+              </div>
+            </div>
+
+            <div class="form-row">
+              <div class="form-row__label">
+                <span id="photo-label">Your photo</span>
+                <span class="form-row__hint">This will be displayed on your profile.</span>
+              </div>
+              <div class="form-row__field photo-field">
+                <span class="photo-field__preview avatar-fill" data-photo-preview>TS</span>
+                <div class="photo-field__main">
+                  <label class="photo-drop" data-photo-drop>
+                    <span class="photo-drop__icon" aria-hidden="true">
+                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M7 18a4.5 4.5 0 0 1-.8-8.9 6 6 0 0 1 11.6 0A4.5 4.5 0 0 1 17 18"/><path d="M12 12v8M9 15l3-3 3 3"/></svg>
+                    </span>
+                    <span class="photo-drop__text"><span class="photo-drop__link">Click to upload</span> or drag and drop</span>
+                    <span class="photo-drop__hint">SVG, PNG, JPG or GIF (max. 800×400px)</span>
+                    <input class="sr-only" type="file" accept="image/svg+xml,image/png,image/jpeg,image/gif" data-photo-input aria-labelledby="photo-label">
+                  </label>
+                  <button class="photo-field__remove" type="button" data-photo-remove hidden>Remove photo</button>
+                  <p class="profile-field__error" data-photo-error hidden></p>
+                </div>
+              </div>
+            </div>
+
+            <div class="form-row">
+              <div class="form-row__label"><label for="pf-country">Country</label></div>
+              <div class="form-row__field">
+                <div class="profile-field">
+                  <select id="pf-country" name="country" autocomplete="country-name">
+                    <option>Ireland</option>
+                    <option>United Kingdom</option>
+                    <option>France</option>
+                    <option>Germany</option>
+                    <option>Italy</option>
+                    <option>Netherlands</option>
+                    <option>Poland</option>
+                    <option>Portugal</option>
+                    <option>Spain</option>
+                    <option>India</option>
+                    <option>United States</option>
+                    <option>Canada</option>
+                    <option>Australia</option>
+                    <option>Other</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+
+            <div class="form-row">
+              <div class="form-row__label">
+                <span id="signature-label">Signature</span>
+                <span class="form-row__hint">Draw with your mouse, finger or stylus.</span>
+              </div>
+              <div class="form-row__field">
+                <div class="signature">
+                  <canvas class="signature__pad" data-signature role="img" aria-labelledby="signature-label"></canvas>
+                  <span class="signature__placeholder" data-signature-placeholder>Sign here</span>
+                </div>
+                <div class="signature__tools">
+                  <button class="signature__tool" type="button" data-signature-undo>
+                    <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 14L4 9l5-5"/><path d="M4 9h10.5a5.5 5.5 0 0 1 0 11H11"/></svg>
+                    Undo
+                  </button>
+                  <button class="signature__tool" type="button" data-signature-clear>
+                    <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 7h16M10 11v6M14 11v6M6 7l1 13h10l1-13M9 7V4h6v3"/></svg>
+                    Clear
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <div class="details-form__actions">
+              <button class="btn btn--text" type="button" data-cancel-details>Cancel</button>
+              <button class="btn btn--primary" type="submit">Save</button>
+            </div>
+          </form>
+        </section>
+      </div>
+    </div>
+  </main>
+
+  <div class="profile-toast" role="status" aria-live="polite" data-toast hidden></div>
+
+  <script src="js/layout.js"></script>
+  <script src="js/progress.js"></script>
+  <script src="js/profile.js"></script>
+</body>
+</html>

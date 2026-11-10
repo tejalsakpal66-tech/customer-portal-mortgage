@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Signed out | Figor</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,400..600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/styles.css">
+  <link rel="stylesheet" href="css/logout.css">
+  <script src="js/brand.js"></script>
+</head>
+<body class="signed-out">
+  <main class="signed-out__main">
+    <img class="signed-out__logo" src="assets/brand/figor-logo.svg" alt="Figor" data-brand-logo>
+
+    <section class="signed-out__card" aria-labelledby="signed-out-title">
+      <span class="signed-out__icon" aria-hidden="true">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M14 4h4a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2h-4"/><path d="M9 16l-4-4 4-4M5 12h10"/></svg>
+      </span>
+      <h1 class="signed-out__title" id="signed-out-title">You've signed out</h1>
+      <p class="signed-out__text">Your application is saved. Sign in again any time to pick up where you left off.</p>
+      <a class="btn btn--primary signed-out__btn" href="signin.html">Sign in again</a>
+      <p class="signed-out__tip">On a shared computer? Close this browser window to finish.</p>
+    </section>
+  </main>
+</body>
+</html>

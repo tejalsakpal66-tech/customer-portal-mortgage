@@ -1,0 +1,1774 @@
+/* ==========================================================================
+   Customer Portal – Mortgage
+   Shared design tokens, layout shell (header / nav / FAB) and components.
+   ========================================================================== */
+
+:root {
+  /* ---- Brand inputs ---------------------------------------------------------
+     The only colours a white-label theme has to supply. js/brand.js overwrites
+     these from the active theme; everything below is derived from them.     */
+  --brand-primary: #913721;   /* buttons, active states, own chat bubbles   */
+  --brand-accent: #c08b4a;    /* secondary highlights, progress, chat button */
+  --brand-ink: #4a2311;       /* deep brand colour: icons on accent, shadows */
+  --brand-surface: #fafaf8;   /* page background                             */
+  --on-primary: #ffffff;      /* text/icons placed on --brand-primary        */
+  --on-accent: var(--brand-ink);
+
+  /* ---- Derived brand palette (no need to edit) ---------------------------- */
+  --primary: var(--brand-primary);
+  --primary-hover: color-mix(in srgb, var(--brand-primary) 84%, black);
+  --primary-dark: var(--primary-hover);
+  --primary-tint: color-mix(in srgb, var(--brand-primary) 9%, white);
+  --primary-soft: color-mix(in srgb, var(--brand-primary) 40%, white);
+  --primary-line: color-mix(in srgb, var(--brand-primary) 26%, white);
+  --primary-wash: color-mix(in srgb, var(--brand-primary) 3%, white);
+  --accent: var(--brand-accent);
+  --accent-hover: color-mix(in srgb, var(--brand-accent) 88%, black);
+  --accent-dark: color-mix(in srgb, var(--brand-accent) 70%, black);   /* dark enough for text and small icons */
+  --accent-tint: color-mix(in srgb, var(--brand-accent) 11%, white);
+  --accent-line: color-mix(in srgb, var(--brand-accent) 40%, white);
+  --shadow-color: var(--brand-ink);
+  --overlay: color-mix(in srgb, var(--brand-ink) 55%, transparent);
+
+  /* Check mark drawn in --on-accent, for badges on --accent (js/brand.js
+     regenerates it for other themes, since a data URI can't use variables). */
+  --icon-check-on-accent: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%234a2311' stroke-width='3.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M5 12.5l4.5 4.5L19 7.5'/%3E%3C/svg%3E");
+
+  /* Neutrals: near-neutral greys with only a hint of warmth, so the brand
+     colours carry the warmth rather than every border and surface. */
+  --gray-900: #1d1a18;
+  --gray-800: #2a2624;
+  --gray-700: #3a3532;
+  --gray-600: #56504c;
+  --gray-500: #746e69;
+  --gray-400: #9a948f;
+  --gray-300: #d2cdc8;
+  --gray-200: #e8e5e1;
+  --gray-100: #f2f0ed;
+  --gray-50: var(--brand-surface);
+  --white: #ffffff;
+
+  /* Surfaces */
+  --page-bg: var(--gray-50);
+  --header-border: color-mix(in srgb, var(--gray-200) 75%, white);
+  --card-border: var(--gray-200);
+  --input-border: var(--gray-300);
+
+  /* Shape */
+  --radius-sm: 6px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+  --radius-xl: 24px;
+
+  /* Layout */
+  --header-h: 72px;
+  --page-x: 72px;
+  --grid-gap: 28px;
+
+  --font: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --font-heading: "Canela", "Newsreader", Georgia, "Times New Roman", serif;
+  --font-form: var(--font);
+
+  /* Application form fields */
+  --tf-border: color-mix(in srgb, var(--gray-300), var(--gray-400));
+  --tf-label: color-mix(in srgb, var(--gray-600), var(--gray-500));
+  --error: #b42318;
+  --error-text: #9b1c14;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+  font-family: var(--font);
+  color: var(--gray-700);
+  background: var(--page-bg);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Elements toggled with the hidden attribute must stay hidden even when a
+   component class gives them a display value (e.g. flex stacks). */
+[hidden] {
+  display: none !important;
+}
+
+img {
+  display: block;
+  max-width: 100%;
+}
+
+button,
+select,
+input,
+textarea {
+  font: inherit;
+  color: inherit;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* Figor headings: Canela (falls back to Newsreader) */
+.page__title,
+.card__title,
+.form-card__title,
+.status-card__title,
+.status-page__headline,
+.files-card__title,
+.appt-form-title {
+  font-family: var(--font-heading);
+  font-weight: 500;
+  font-optical-sizing: auto;
+  letter-spacing: -0.01em;
+}
+
+/* ==========================================================================
+   Header
+   ========================================================================== */
+
+.site-header {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  height: var(--header-h);
+  background: var(--white);
+  border-bottom: 1px solid var(--header-border);
+}
+
+.site-header__inner {
+  height: 100%;
+  display: flex;
+  align-items: center;
+  padding: 0 17px 0 86px;
+}
+
+/* Fixed height, natural width: any brand's logo keeps its proportions
+   (wide wordmarks are capped so they don't crowd the navigation). */
+.site-header__logo {
+  flex: none;
+  display: block;
+  width: auto;
+  height: 42px;
+  margin-right: 73px;
+}
+
+.site-header__logo img {
+  display: block;
+  width: auto;
+  max-width: 180px;
+  height: 100%;
+  object-fit: contain;
+  object-position: left center;
+}
+
+.main-nav {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.main-nav__link {
+  display: inline-flex;
+  align-items: center;
+  height: 44px;
+  padding: 0 21px;
+  border-radius: 999px;
+  font-size: 15px;
+  font-weight: 600;
+  letter-spacing: 0.066em;
+  color: var(--gray-600);
+  white-space: nowrap;
+  transition: background-color 0.15s ease, color 0.15s ease;
+}
+
+.main-nav__link:hover {
+  background: color-mix(in srgb, var(--gray-100) 60%, white);
+  color: var(--gray-700);
+}
+
+.main-nav__link.is-active {
+  background: var(--gray-100);
+  color: var(--gray-600);
+}
+
+.site-header__actions {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  gap: 30px;
+}
+
+.icon-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: transparent;
+  color: var(--primary-dark);
+  cursor: pointer;
+  transition: background-color 0.15s ease;
+}
+
+.icon-btn:hover {
+  background: var(--primary-tint);
+}
+
+.icon-btn svg {
+  width: 26px;
+  height: 26px;
+}
+
+.user-avatar {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: var(--primary-dark);
+  color: var(--on-primary);
+  font-size: 16px;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  cursor: pointer;
+}
+
+.menu-toggle {
+  display: none;
+  color: var(--gray-700);
+}
+
+.menu-toggle .icon-close {
+  display: none;
+}
+
+.site-header.is-open .menu-toggle .icon-open {
+  display: none;
+}
+
+.site-header.is-open .menu-toggle .icon-close {
+  display: block;
+}
+
+/* ==========================================================================
+   Page shell
+   ========================================================================== */
+
+.page {
+  padding: 108px var(--page-x) 112px;
+}
+
+.page__title {
+  margin: 0 0 18px;
+  font-size: 25px;
+  line-height: 32px;
+  font-weight: 600;
+  color: var(--gray-700);
+}
+
+.page--compact {
+  padding-top: 40px;
+}
+
+.page__title:has(+ .page__subtitle) {
+  margin-bottom: 7px;
+}
+
+.page__subtitle {
+  margin: 0 0 29px;
+  font-size: 15px;
+  line-height: 20px;
+  font-weight: 600;
+  color: var(--gray-700);
+}
+
+/* ==========================================================================
+   Card
+   ========================================================================== */
+
+.card {
+  background: var(--white);
+  border: 1px solid var(--card-border);
+  border-radius: var(--radius-lg);
+  padding: 32px 28px 38px;
+}
+
+.card__title {
+  margin: 0 0 29px;
+  font-size: 22px;
+  line-height: 28px;
+  font-weight: 600;
+  color: var(--gray-700);
+}
+
+/* ==========================================================================
+   Form controls
+   ========================================================================== */
+
+.field + .field {
+  margin-top: 28px;
+}
+
+.field__label {
+  display: block;
+  margin-bottom: 6px;
+  font-size: 14.5px;
+  line-height: 20px;
+  font-weight: 500;
+  color: var(--gray-700);
+}
+
+.select {
+  position: relative;
+}
+
+.select select {
+  display: block;
+  width: 100%;
+  height: 44px;
+  padding: 0 44px 0 17px;
+  border: 1px solid var(--input-border);
+  border-radius: 4px;
+  background: var(--white);
+  font-size: 17px;
+  letter-spacing: 0.01em;
+  color: var(--gray-600);
+  appearance: none;
+  -webkit-appearance: none;
+  cursor: pointer;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.select select:hover {
+  border-color: var(--gray-500);
+}
+
+.select select:focus {
+  outline: none;
+  border-color: var(--primary);
+  box-shadow: 0 0 0 1px var(--primary);
+}
+
+.select::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  right: 22px;
+  width: 0;
+  height: 0;
+  margin-top: -2px;
+  border-left: 5px solid transparent;
+  border-right: 5px solid transparent;
+  border-top: 5px solid #8b8e98;
+  pointer-events: none;
+}
+
+/* ==========================================================================
+   Form fields – two label styles share one control look:
+
+   1. Floating label in the border notch (.tf)
+      <div class="tf"><input id="x"><label for="x">Label</label></div>
+      Label floats when focused or filled (.is-filled, set by JS), or always
+      for selects (.tf--select).
+
+   2. Label above the box (.lf)
+      <div class="lf"><label for="x">Label</label>
+        <div class="lf__control [lf__control--select]"><input id="x"></div></div>
+   ========================================================================== */
+
+.tf,
+.lf {
+  --tf-h: 61px;
+  position: relative;
+}
+
+.tf input,
+.tf select,
+.lf input,
+.lf select {
+  display: block;
+  width: 100%;
+  height: var(--tf-h);
+  margin: 0;
+  padding: 0 17px;
+  border: 1px solid var(--tf-border);
+  border-radius: 10px;
+  background: var(--white);
+  font-family: var(--font-form);
+  font-size: 16px;
+  font-weight: 500;
+  color: #111111;
+  appearance: none;
+  -webkit-appearance: none;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.tf input:hover,
+.tf select:hover,
+.lf input:hover,
+.lf select:hover {
+  border-color: #6b6b6b;
+}
+
+.tf input:focus,
+.tf select:focus,
+.lf input:focus,
+.lf select:focus {
+  outline: none;
+  border-color: #000000;
+  box-shadow: 0 0 0 1px #000000;
+}
+
+.tf select,
+.lf select {
+  padding-right: 48px;
+  cursor: pointer;
+}
+
+.tf input[readonly] {
+  cursor: default;
+}
+
+/* Floating label */
+.tf label {
+  position: absolute;
+  top: calc(var(--tf-h) / 2);
+  left: 9px;
+  max-width: calc(100% - 40px);
+  padding: 0 8px;
+  transform: translateY(-50%);
+  background: var(--white);
+  font-family: var(--font-form);
+  font-size: 15.5px;
+  line-height: 20px;
+  font-weight: 500;
+  color: var(--tf-label);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  pointer-events: none;
+  transition: top 0.15s ease, color 0.15s ease;
+}
+
+.tf.is-filled label,
+.tf:focus-within label,
+.tf--select label {
+  top: 0;
+}
+
+/* Label above */
+.lf > label {
+  display: block;
+  margin-bottom: 5px;
+  font-family: var(--font-form);
+  font-size: 13px;
+  line-height: 18px;
+  font-weight: 500;
+  color: #8d8d8d;
+}
+
+.lf__control {
+  position: relative;
+}
+
+.lf select {
+  font-size: 15px;
+  color: #222222;
+}
+
+/* Select caret */
+.tf--select::after,
+.lf__control--select::after {
+  content: "";
+  position: absolute;
+  top: calc(var(--tf-h) / 2);
+  right: 20px;
+  margin-top: -2px;
+  border-left: 5px solid transparent;
+  border-right: 5px solid transparent;
+  border-top: 5px solid var(--tf-label);
+  pointer-events: none;
+}
+
+/* Date: native picker indicator is stretched invisibly over the custom icon */
+.tf--date input {
+  padding-right: 56px;
+}
+
+.tf--date:not(.is-filled):not(:focus-within) input {
+  color: transparent;
+}
+
+.tf--date input::-webkit-calendar-picker-indicator {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 64px;
+  height: var(--tf-h);
+  margin: 0;
+  opacity: 0;
+  cursor: pointer;
+}
+
+.tf__icon {
+  position: absolute;
+  top: calc(var(--tf-h) / 2);
+  right: 26px;
+  transform: translateY(-50%);
+  color: #1d1d1d;
+  pointer-events: none;
+}
+
+/* Error state – red border (also while hovered/focused) and a message
+   below the box that pushes the next field down so nothing overlaps */
+.has-error input,
+.has-error input:hover,
+.has-error select,
+.has-error select:hover {
+  border-color: var(--error);
+}
+
+.has-error input:focus,
+.has-error select:focus {
+  border-color: var(--error);
+  box-shadow: 0 0 0 1px var(--error);
+}
+
+.tf.has-error label {
+  color: var(--error);
+}
+
+.has-error .tf--select::after,
+.tf--select.has-error::after,
+.has-error .lf__control--select::after {
+  border-top-color: var(--error);
+}
+
+.field-error {
+  margin: 8px 0 4px 18px;
+  font-size: 13px;
+  line-height: 18px;
+  letter-spacing: 0.03em;
+  color: var(--error-text);
+}
+
+/* Checkbox */
+.checkbox {
+  display: inline-flex;
+  align-items: center;
+  gap: 15px;
+  margin-left: 12px;
+  font-family: var(--font-form);
+  font-size: 15.5px;
+  font-weight: 500;
+  color: #747474;
+  cursor: pointer;
+  user-select: none;
+}
+
+.checkbox input {
+  position: relative;
+  flex: none;
+  width: 20px;
+  height: 20px;
+  margin: 0;
+  border: 2px solid var(--primary-soft);
+  border-radius: 3px;
+  background: var(--white);
+  appearance: none;
+  -webkit-appearance: none;
+  cursor: pointer;
+  transition: background-color 0.15s ease, border-color 0.15s ease;
+}
+
+.checkbox input:hover {
+  border-color: var(--primary);
+}
+
+.checkbox input:checked {
+  border-color: var(--primary);
+  background: var(--primary);
+}
+
+.checkbox input:checked::after {
+  content: "";
+  position: absolute;
+  left: 5px;
+  top: 1px;
+  width: 5px;
+  height: 10px;
+  border: solid var(--white);
+  border-width: 0 2px 2px 0;
+  transform: rotate(45deg);
+}
+
+.checkbox input:focus-visible {
+  outline: 2px solid var(--primary);
+  outline-offset: 2px;
+}
+
+/* Material Symbols icon font */
+.ms {
+  font-family: "Material Symbols Outlined";
+  font-weight: normal;
+  font-style: normal;
+  font-size: 24px;
+  line-height: 1;
+  letter-spacing: normal;
+  text-transform: none;
+  display: inline-block;
+  white-space: nowrap;
+  direction: ltr;
+  -webkit-font-feature-settings: "liga";
+  font-feature-settings: "liga";
+  -webkit-font-smoothing: antialiased;
+  font-variation-settings: "FILL" 0, "wght" 400, "GRAD" 0, "opsz" 24;
+  user-select: none;
+}
+
+.ms--fill {
+  font-variation-settings: "FILL" 1, "wght" 400, "GRAD" 0, "opsz" 24;
+}
+
+/* ==========================================================================
+   Buttons
+   ========================================================================== */
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 48px;
+  padding: 0 24px;
+  border: 1px solid transparent;
+  border-radius: 999px;
+  font-size: 15px;
+  font-weight: 500;
+  letter-spacing: 0.01em;
+  cursor: pointer;
+  transition: background-color 0.15s ease, border-color 0.15s ease, color 0.15s ease;
+}
+
+.btn--block {
+  display: flex;
+  width: 100%;
+}
+
+.btn--primary {
+  background: var(--primary);
+  color: var(--on-primary);
+}
+
+.btn--primary:hover {
+  background: var(--primary-hover);
+}
+
+.btn--outline {
+  background: var(--white);
+  border-color: var(--primary);
+  color: var(--primary);
+}
+
+.btn--outline:hover {
+  background: var(--primary-tint);
+}
+
+.btn:focus-visible,
+.icon-btn:focus-visible,
+.user-avatar:focus-visible,
+.main-nav__link:focus-visible,
+.chat-fab:focus-visible {
+  outline: 2px solid var(--primary);
+  outline-offset: 2px;
+}
+
+/* ==========================================================================
+   Avatar (placeholder person)
+   ========================================================================== */
+
+.avatar-placeholder {
+  display: inline-flex;
+  align-items: flex-end;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: var(--gray-100);
+  overflow: hidden;
+  color: var(--gray-300);
+}
+
+.avatar-placeholder svg {
+  width: 100%;
+  height: 100%;
+}
+
+/* ==========================================================================
+   Floating chat button
+   ========================================================================== */
+
+.chat-fab {
+  position: fixed;
+  right: 22px;
+  bottom: 22px;
+  z-index: 60;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 60px;
+  height: 60px;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: var(--accent);
+  color: var(--on-accent);
+  box-shadow: 0 6px 16px color-mix(in srgb, var(--accent) 38%, transparent), 0 2px 4px rgba(16, 24, 40, 0.08);
+  cursor: pointer;
+  transition: background-color 0.15s ease, transform 0.15s ease;
+}
+
+.chat-fab:hover {
+  background: var(--accent-hover);
+  transform: translateY(-1px);
+}
+
+.chat-fab svg {
+  width: 24px;
+  height: 24px;
+}
+
+/* ==========================================================================
+   AI Assistant panel (live portal values, scaled to this build)
+   ========================================================================== */
+
+.assistant {
+  position: fixed;
+  right: 22px;
+  bottom: 22px;
+  z-index: 120; /* above the full-screen upload dialog, which can open it */
+  display: flex;
+  flex-direction: column;
+  width: 420px;
+  height: min(620px, calc(100vh - 44px));
+  border: 1px solid var(--card-border);
+  border-radius: 20px;
+  background: var(--white);
+  overflow: hidden;
+  box-shadow:
+    0 24px 60px color-mix(in srgb, var(--shadow-color) 18%, transparent),
+    0 4px 12px color-mix(in srgb, var(--shadow-color) 8%, transparent);
+}
+
+.assistant[hidden] {
+  display: none;
+}
+
+/* Header: light, with the brand carried by the avatar */
+.assistant__header {
+  display: flex;
+  flex: none;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 12px 14px 18px;
+  border-bottom: 1px solid var(--gray-100);
+}
+
+.assistant__avatar {
+  display: inline-flex;
+  flex: none;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 12px;
+  background: var(--accent-tint);
+  color: var(--accent-dark);
+}
+
+.assistant__avatar svg {
+  width: 22px;
+  height: 22px;
+}
+
+.assistant__heading {
+  flex: 1;
+  min-width: 0;
+}
+
+.assistant__title {
+  margin: 0;
+  font-family: var(--font);
+  font-size: 16px;
+  line-height: 21px;
+  font-weight: 600;
+  color: var(--gray-900);
+}
+
+.assistant__subtitle {
+  margin: 1px 0 0;
+  font-size: 13px;
+  line-height: 18px;
+  color: var(--gray-500);
+}
+
+.assistant__close {
+  display: inline-flex;
+  flex: none;
+  align-items: center;
+  justify-content: center;
+  width: 38px;
+  height: 38px;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: none;
+  color: var(--gray-600);
+  cursor: pointer;
+}
+
+.assistant__close:hover {
+  background: var(--gray-100);
+  color: var(--gray-900);
+}
+
+.assistant__close svg {
+  width: 18px;
+  height: 18px;
+}
+
+/* Which document the conversation is about (when opened from one) */
+.assistant__context {
+  display: flex;
+  flex: none;
+  align-items: center;
+  gap: 8px;
+  margin: 0;
+  padding: 9px 18px;
+  border-bottom: 1px solid var(--gray-100);
+  background: var(--primary-wash);
+  font-size: 13px;
+  line-height: 18px;
+  color: var(--gray-600);
+}
+
+.assistant__context svg {
+  flex: none;
+  width: 16px;
+  height: 16px;
+  color: var(--accent-dark);
+}
+
+.assistant__context strong {
+  font-weight: 600;
+  color: var(--gray-900);
+}
+
+.assistant__body {
+  flex: 1;
+  overflow-y: auto;
+  padding: 18px 18px 16px;
+}
+
+/* Messages */
+.assistant__messages {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.assistant__intro + .assistant__messages:not(:empty) {
+  margin-top: 12px;
+}
+
+.assistant__row {
+  display: flex;
+  align-items: flex-end;
+  gap: 8px;
+}
+
+.assistant__row--user {
+  justify-content: flex-end;
+}
+
+.assistant__bot {
+  display: inline-flex;
+  flex: none;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: var(--accent-tint);
+  color: var(--accent-dark);
+}
+
+.assistant__bot svg {
+  width: 16px;
+  height: 16px;
+}
+
+.assistant__msg {
+  max-width: 82%;
+  margin: 0;
+  padding: 10px 14px;
+  border-radius: 16px;
+  font-size: 14.5px;
+  line-height: 21px;
+}
+
+.assistant__msg--user {
+  border-bottom-right-radius: 4px;
+  background: var(--primary);
+  color: var(--on-primary);
+}
+
+.assistant__msg--bot {
+  border-bottom-left-radius: 4px;
+  background: var(--gray-50);
+  box-shadow: inset 0 0 0 1px var(--gray-100);
+  color: var(--gray-800);
+}
+
+.assistant__typing {
+  display: inline-flex;
+  gap: 4px;
+  padding: 14px 16px;
+}
+
+.assistant__typing span {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--gray-400);
+  animation: assistant-typing 1s infinite ease-in-out;
+}
+
+.assistant__typing span:nth-child(2) { animation-delay: 0.15s; }
+.assistant__typing span:nth-child(3) { animation-delay: 0.3s; }
+
+@keyframes assistant-typing {
+  0%, 80%, 100% { transform: translateY(0); opacity: 0.5; }
+  40% { transform: translateY(-4px); opacity: 1; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .assistant__typing span { animation: none; }
+}
+
+/* Suggested questions: a list in the welcome state, compact chips later */
+.assistant__actions-label {
+  margin: 18px 0 8px 36px;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--gray-500);
+}
+
+.assistant__suggestions {
+  display: grid;
+  gap: 6px;
+  margin-left: 36px;
+}
+
+.assistant__chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  border: 1px solid var(--gray-200);
+  background: var(--white);
+  font: inherit;
+  color: var(--gray-800);
+  cursor: pointer;
+  transition: background-color 0.15s ease, border-color 0.15s ease, color 0.15s ease;
+}
+
+.assistant__chip svg {
+  flex: none;
+  width: 16px;
+  height: 16px;
+  color: var(--gray-400);
+}
+
+.assistant__chip:hover {
+  border-color: var(--primary-line);
+  background: var(--primary-wash);
+  color: var(--gray-900);
+}
+
+.assistant__chip:hover svg {
+  color: var(--primary);
+}
+
+.assistant__suggestions .assistant__chip {
+  justify-content: space-between;
+  width: 100%;
+  min-height: 42px;
+  padding: 0 12px 0 14px;
+  border-radius: 12px;
+  font-size: 14px;
+  font-weight: 500;
+  text-align: left;
+}
+
+.assistant__chips--dock {
+  display: flex;
+  flex: none;
+  flex-wrap: wrap;
+  gap: 6px;
+  padding: 10px 14px 4px;
+  border-top: 1px solid var(--gray-100);
+}
+
+.assistant__chips--dock[hidden] {
+  display: none;
+}
+
+.assistant__chips--dock .assistant__chip {
+  height: 30px;
+  padding: 0 12px;
+  border-radius: 999px;
+  font-size: 13px;
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+.assistant__chips--dock .assistant__chip svg {
+  display: none;
+}
+
+.assistant__chip:focus-visible,
+.assistant__send:focus-visible,
+.assistant__close:focus-visible {
+  outline: 2px solid var(--primary);
+  outline-offset: 2px;
+}
+
+/* Composer: rounded box with the send button inside */
+.assistant__composer {
+  flex: none;
+  padding: 10px 14px 12px;
+}
+
+.assistant__chips--dock[hidden] + .assistant__composer {
+  border-top: 1px solid var(--gray-100);
+}
+
+.assistant__box {
+  display: flex;
+  align-items: flex-end;
+  gap: 6px;
+  padding: 5px 5px 5px 14px;
+  border: 1px solid var(--gray-300);
+  border-radius: 24px;
+  background: var(--white);
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.assistant__box:focus-within {
+  border-color: var(--primary);
+  box-shadow: 0 0 0 1px var(--primary);
+}
+
+.assistant__box textarea {
+  flex: 1;
+  min-width: 0;
+  min-height: 36px;
+  max-height: 120px;
+  padding: 8px 0;
+  border: 0;
+  background: transparent;
+  font-family: var(--font);
+  font-size: 15px;
+  line-height: 20px;
+  color: var(--gray-900);
+  resize: none;
+  outline: none;
+}
+
+.assistant__box textarea::placeholder {
+  color: var(--gray-400);
+}
+
+.assistant__send {
+  display: inline-flex;
+  flex: none;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: var(--primary);
+  color: var(--on-primary);
+  cursor: pointer;
+  transition: background-color 0.15s ease;
+}
+
+.assistant__send:hover:not(:disabled) {
+  background: var(--primary-hover);
+}
+
+.assistant__send:disabled {
+  background: var(--gray-200);
+  color: var(--gray-500);
+  cursor: default;
+}
+
+.assistant__send svg {
+  width: 16px;
+  height: 16px;
+}
+
+.assistant__note {
+  margin: 8px 4px 0;
+  font-size: 12px;
+  line-height: 16px;
+  text-align: center;
+  color: var(--gray-500);
+}
+
+@media (max-width: 600px) {
+  .assistant {
+    right: 8px;
+    left: 8px;
+    bottom: 8px;
+    width: auto;
+    height: calc(100vh - 16px);
+    height: calc(100dvh - 16px);
+    border-radius: 18px;
+  }
+
+  .assistant__body {
+    padding: 16px 14px 14px;
+  }
+}
+
+/* ==========================================================================
+   Responsive – shell
+   ========================================================================== */
+
+@media (max-width: 1240px) {
+  :root {
+    --page-x: 40px;
+  }
+
+  .site-header__inner {
+    padding: 0 17px 0 40px;
+  }
+
+  .site-header__logo {
+    margin-right: 40px;
+  }
+
+  .main-nav {
+    gap: 4px;
+  }
+
+  .main-nav__link {
+    padding: 0 16px;
+    letter-spacing: 0.06em;
+  }
+}
+
+@media (max-width: 1023px) {
+  :root {
+    --header-h: 68px;
+    --page-x: 24px;
+  }
+
+  .site-header__inner {
+    padding: 0 12px 0 24px;
+  }
+
+  .site-header__logo {
+    width: auto;
+    height: 36px;
+    margin-right: 0;
+  }
+
+  .site-header__logo img {
+    max-width: 150px;
+  }
+
+  .site-header__actions {
+    gap: 8px;
+  }
+
+  .user-avatar {
+    width: 38px;
+    height: 38px;
+    font-size: 14px;
+  }
+
+  .menu-toggle {
+    display: inline-flex;
+  }
+
+  .main-nav {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 4px;
+    padding: 12px 16px 16px;
+    background: var(--white);
+    border-bottom: 1px solid var(--header-border);
+    box-shadow: 0 12px 24px rgba(16, 24, 40, 0.08);
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-8px);
+    transition: opacity 0.18s ease, transform 0.18s ease, visibility 0.18s;
+  }
+
+  .site-header.is-open .main-nav {
+    opacity: 1;
+    visibility: visible;
+    transform: none;
+  }
+
+  .main-nav__link {
+    height: 48px;
+    padding: 0 16px;
+    letter-spacing: 0.06em;
+  }
+
+  .page {
+    padding-top: 40px;
+  }
+}
+
+@media (max-width: 600px) {
+  :root {
+    --header-h: 60px;
+    --page-x: 16px;
+  }
+
+  .site-header__inner {
+    padding: 0 8px 0 16px;
+  }
+
+  .site-header__logo {
+    width: auto;
+    height: 32px;
+  }
+
+  .site-header__logo img {
+    max-width: 128px;
+  }
+
+  .site-header__actions {
+    gap: 2px;
+  }
+
+  .user-avatar {
+    width: 36px;
+    height: 36px;
+    margin-left: 4px;
+  }
+
+  .page {
+    padding-top: 24px;
+    padding-bottom: 96px;
+  }
+
+  .page__title {
+    font-size: 22px;
+    line-height: 28px;
+    margin-bottom: 14px;
+  }
+
+  .card {
+    padding: 24px 20px 28px;
+  }
+
+  .card__title {
+    font-size: 20px;
+    line-height: 26px;
+    margin-bottom: 22px;
+  }
+
+  .field + .field {
+    margin-top: 22px;
+  }
+
+  .select select {
+    font-size: 16px;
+  }
+
+  .chat-fab {
+    right: 16px;
+    bottom: 16px;
+    width: 54px;
+    height: 54px;
+  }
+}
+
+/* ==========================================================================
+   Header: notifications bell and account menu
+   ========================================================================== */
+
+.notif-btn {
+  position: relative;
+}
+
+.notif-btn.is-active {
+  background: var(--primary-tint);
+}
+
+.notif-badge {
+  position: absolute;
+  top: 2px;
+  right: 1px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 18px;
+  height: 18px;
+  padding: 0 5px;
+  border: 2px solid var(--white);
+  border-radius: 999px;
+  background: var(--accent);
+  font-size: 10.5px;
+  line-height: 1;
+  font-weight: 700;
+  color: var(--on-accent);
+}
+
+.account {
+  position: relative;
+}
+
+.account-menu {
+  position: absolute;
+  top: calc(100% + 10px);
+  right: 0;
+  z-index: 60;
+  width: 280px;
+  padding: 8px;
+  border: 1px solid var(--card-border);
+  border-radius: 16px;
+  background: var(--white);
+  box-shadow: 0 16px 40px color-mix(in srgb, var(--shadow-color) 14%, transparent);
+}
+
+.account-menu__head {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 6px;
+  padding: 10px 10px 14px;
+  border-bottom: 1px solid var(--gray-100);
+}
+
+.account-menu__avatar {
+  display: inline-flex;
+  flex: none;
+  align-items: center;
+  justify-content: center;
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  background: var(--primary-dark);
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--on-primary);
+}
+
+.account-menu__who {
+  min-width: 0;
+}
+
+.account-menu__name {
+  margin: 0;
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--gray-900);
+}
+
+.account-menu__email {
+  margin: 1px 0 0;
+  overflow: hidden;
+  font-size: 13px;
+  color: var(--gray-500);
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.account-menu__item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  height: 42px;
+  padding: 0 10px;
+  border: 0;
+  border-radius: 10px;
+  background: none;
+  font: inherit;
+  font-size: 14.5px;
+  font-weight: 500;
+  text-align: left;
+  color: var(--gray-800);
+  cursor: pointer;
+}
+
+.account-menu__item svg {
+  flex: none;
+  width: 19px;
+  height: 19px;
+  color: var(--accent-dark);
+}
+
+.account-menu__item:hover,
+.account-menu__item:focus-visible {
+  background: var(--primary-wash);
+  outline: none;
+}
+
+.account-menu__count {
+  margin-left: auto;
+  padding: 1px 8px;
+  border-radius: 999px;
+  background: var(--accent-tint);
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--accent-dark);
+}
+
+@media (max-width: 600px) {
+  .account-menu {
+    position: fixed;
+    top: calc(var(--header-h) + 8px);
+    right: 8px;
+    left: 8px;
+    width: auto;
+  }
+}
+
+/* Uploaded profile photo inside an avatar circle */
+.avatar-fill img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.user-avatar .avatar-fill {
+  display: contents;
+}
+
+.user-avatar:has(img) {
+  overflow: hidden;
+  background: var(--gray-100);
+}
+
+.account-menu__avatar:has(img) {
+  overflow: hidden;
+  background: var(--gray-100);
+}
+
+.account-menu__divider {
+  display: block;
+  height: 1px;
+  margin: 6px 4px;
+  background: var(--gray-100);
+}
+
+.account-menu__item--logout {
+  color: var(--gray-700);
+}
+
+/* ==========================================================================
+   Modern refresh
+   Lighter header, a centred content width, consistent card depth, crisper
+   buttons and stacked form labels. Overrides earlier rules in this file and
+   is shared by every page.
+   ========================================================================== */
+
+:root {
+  --content-max: 1280px;
+  --radius-card: 18px;
+  --shadow-card:
+    0 1px 2px color-mix(in srgb, var(--shadow-color) 5%, transparent),
+    0 2px 8px color-mix(in srgb, var(--shadow-color) 4%, transparent);
+  --ring: 0 0 0 4px var(--primary-tint);
+}
+
+body {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+/* Serif headings: slightly tighter, as display type usually is */
+.page__title,
+.card__title,
+.form-card__title,
+.status-card__title,
+.files-card__title,
+.profile-card__title,
+.book-card__title {
+  letter-spacing: -0.01em;
+}
+
+/* ---- Header: lighter, translucent, aligned to the content width ---------- */
+.site-header {
+  border-bottom-color: color-mix(in srgb, var(--gray-200) 70%, transparent);
+  background: color-mix(in srgb, var(--white) 86%, transparent);
+  backdrop-filter: saturate(160%) blur(14px);
+  -webkit-backdrop-filter: saturate(160%) blur(14px);
+}
+
+.site-header__inner {
+  max-width: calc(var(--content-max) + 2 * var(--page-x));
+  margin: 0 auto;
+  padding: 0 var(--page-x);
+}
+
+.site-header__logo {
+  height: 34px;
+  margin-right: 44px;
+}
+
+.main-nav {
+  gap: 4px;
+}
+
+.main-nav__link {
+  height: 38px;
+  padding: 0 16px;
+  font-size: 14.5px;
+  font-weight: 500;
+  letter-spacing: 0;
+  color: var(--gray-600);
+}
+
+.main-nav__link:hover {
+  background: var(--gray-100);
+  color: var(--gray-900);
+}
+
+.main-nav__link.is-active {
+  background: var(--gray-100);
+  font-weight: 600;
+  color: var(--gray-900);
+}
+
+.site-header__actions {
+  gap: 10px;
+}
+
+.icon-btn svg {
+  width: 22px;
+  height: 22px;
+}
+
+.user-avatar {
+  width: 38px;
+  height: 38px;
+  font-size: 14px;
+}
+
+/* ---- Page: centred content width, calmer top spacing ------------------------ */
+.page {
+  max-width: calc(var(--content-max) + 2 * var(--page-x));
+  margin: 0 auto;
+  padding-top: 44px;
+}
+
+/* ---- Cards: one radius, a whisper of depth ------------------------------------ */
+.card,
+.form-card,
+.appts-card,
+.appt-next,
+.files-card,
+.msgs-card,
+.notifs-card,
+.profile-card,
+.profile-summary,
+.profile-nav,
+.action-banner,
+.upload-guide,
+.upload-panel {
+  border-color: var(--card-border);
+  border-radius: var(--radius-card);
+  box-shadow: var(--shadow-card);
+}
+
+.status-card {
+  border-radius: var(--radius-card);
+}
+
+/* ---- Buttons: confident weight, gentle press feedback ---------------------------- */
+.btn {
+  font-weight: 600;
+  letter-spacing: 0;
+  transition: background-color 0.15s ease, border-color 0.15s ease, color 0.15s ease, box-shadow 0.15s ease, transform 0.1s ease;
+}
+
+.btn:active:not(:disabled) {
+  transform: scale(0.98);
+}
+
+.btn--primary:hover:not(:disabled) {
+  box-shadow: 0 4px 14px color-mix(in srgb, var(--primary) 28%, transparent);
+}
+
+.btn:focus-visible {
+  outline: none;
+  box-shadow: var(--ring), 0 0 0 1px var(--primary);
+}
+
+/* ---- Form fields: label above the box, softer control, focus ring --------------
+   .tf keeps its markup (input, then label); the label is moved above with
+   flex order so error messages appended by the scripts still sit below. */
+.tf,
+.lf {
+  --tf-h: 50px;
+}
+
+.tf {
+  display: flex;
+  flex-direction: column;
+}
+
+.tf label,
+.lf > label {
+  position: static;
+  order: -1;
+  max-width: none;
+  margin: 0 0 7px;
+  padding: 0;
+  transform: none;
+  background: none;
+  font-family: var(--font);
+  font-size: 14px;
+  line-height: 20px;
+  font-weight: 500;
+  color: var(--gray-800);
+  white-space: normal;
+  overflow: visible;
+  pointer-events: auto;
+}
+
+.tf input,
+.tf select,
+.lf input,
+.lf select {
+  padding: 0 14px;
+  border-color: var(--gray-300);
+  border-radius: 12px;
+  font-size: 15.5px;
+  font-weight: 400;
+  color: var(--gray-900);
+}
+
+.tf select,
+.lf select {
+  padding-right: 44px;
+}
+
+.tf input:hover,
+.tf select:hover,
+.lf input:hover,
+.lf select:hover {
+  border-color: var(--gray-400);
+}
+
+.tf input:focus,
+.tf select:focus,
+.lf input:focus,
+.lf select:focus {
+  border-color: var(--primary);
+  box-shadow: var(--ring);
+}
+
+.has-error input:focus,
+.has-error select:focus {
+  box-shadow: 0 0 0 4px color-mix(in srgb, var(--error) 14%, transparent);
+}
+
+/* Caret, date icon and picker now sit relative to the box, below the label */
+.tf--select::after,
+.lf__control--select::after {
+  top: auto;
+  bottom: calc(var(--tf-h) / 2);
+  right: 18px;
+  width: 8px;
+  height: 8px;
+  margin: 0 0 -2px;
+  border: 0;
+  border-right: 2px solid var(--gray-500);
+  border-bottom: 2px solid var(--gray-500);
+  transform: rotate(45deg);
+}
+
+.has-error .tf--select::after,
+.tf--select.has-error::after,
+.has-error .lf__control--select::after {
+  border-color: var(--error);
+}
+
+.tf__icon {
+  top: auto;
+  bottom: calc(var(--tf-h) / 2);
+  right: 16px;
+  transform: translateY(50%);
+  color: var(--gray-500);
+}
+
+.tf--date input::-webkit-calendar-picker-indicator {
+  top: auto;
+  bottom: 0;
+}
+
+/* With the label above, an empty date shows its own placeholder */
+.tf--date:not(.is-filled):not(:focus-within) input {
+  color: var(--gray-500);
+}
+
+.field-error {
+  margin-left: 2px;
+  letter-spacing: 0;
+}
+
+.checkbox {
+  color: var(--gray-700);
+}
