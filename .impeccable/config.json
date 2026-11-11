@@ -368,6 +368,24 @@
         ],
         "createdAt": "2026-11-10T18:44:51.962Z",
         "reason": "Brand page background"
+      },
+      {
+        "rule": "cramped-padding",
+        "value": "*",
+        "files": [
+          "signin.html"
+        ],
+        "createdAt": "2026-11-11T06:35:29.346Z",
+        "reason": "In the split layout auth-card has no border or padding (form sits on white); detector reads the base bordered card rule"
+      },
+      {
+        "rule": "cramped-padding",
+        "value": "*",
+        "files": [
+          "signup.html"
+        ],
+        "createdAt": "2026-11-11T06:35:29.370Z",
+        "reason": "In the split layout auth-card has no border or padding (form sits on white); detector reads the base bordered card rule"
       }
     ]
   }
