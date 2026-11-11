@@ -1,0 +1,316 @@
+/* ==========================================================================
+   Welcome (first-time applicants)
+   Desktop: greeting and "How it works" on the left, the start card on the
+   right so the main action is visible without scrolling.
+   Phones: greeting, start card, then how it works.
+   ========================================================================== */
+
+.welcome {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(380px, 460px);
+  grid-template-areas:
+    "hero  start"
+    "steps start";
+  grid-template-rows: auto 1fr;
+  gap: 32px 56px;
+  align-items: start;
+  max-width: calc(1120px + 2 * var(--page-x));
+  padding-top: 56px;
+}
+
+.welcome-hero { grid-area: hero; }
+.welcome-steps { grid-area: steps; }
+.welcome-start { grid-area: start; }
+
+/* ---- Hello -------------------------------------------------------------------- */
+.welcome-hero__title {
+  margin: 0;
+  font-size: 44px;
+  line-height: 50px;
+  font-weight: 500;
+  color: var(--gray-900);
+}
+
+.welcome-hero__lede {
+  max-width: 500px;
+  margin: 16px 0 0;
+  font-size: 17px;
+  line-height: 27px;
+  color: var(--gray-600);
+}
+
+/* ---- How it works: a light vertical timeline ------------------------------------- */
+.welcome-section__title {
+  margin: 0 0 18px;
+  font-family: var(--font-heading);
+  font-size: 22px;
+  line-height: 28px;
+  font-weight: 500;
+  letter-spacing: -0.01em;
+  color: var(--gray-900);
+}
+
+.welcome-steps__list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.welcome-step {
+  position: relative;
+  display: grid;
+  grid-template-columns: 44px minmax(0, 1fr);
+  column-gap: 16px;
+  padding-bottom: 26px;
+}
+
+.welcome-step:last-child {
+  padding-bottom: 0;
+}
+
+/* Line joining each step to the next */
+.welcome-step:not(:last-child)::before {
+  content: "";
+  position: absolute;
+  top: 50px;
+  bottom: 6px;
+  left: 21px;
+  width: 2px;
+  border-radius: 2px;
+  background: var(--gray-200);
+}
+
+.welcome-step__icon {
+  grid-row: 1 / span 3;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  padding: 10px;
+  border: 1px solid var(--gray-200);
+  border-radius: 50%;
+  background: var(--white);
+  color: var(--accent-dark);
+}
+
+.welcome-step:first-child .welcome-step__icon {
+  border-color: var(--primary);
+  background: var(--primary);
+  color: var(--on-primary);
+}
+
+.welcome-step__num {
+  grid-column: 2;
+  margin-top: 1px;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--gray-500);
+}
+
+.welcome-step__title {
+  grid-column: 2;
+  margin: 2px 0 0;
+  font-family: var(--font);
+  font-size: 16.5px;
+  line-height: 23px;
+  font-weight: 600;
+  color: var(--gray-900);
+}
+
+.welcome-step__text {
+  grid-column: 2;
+  max-width: 460px;
+  margin: 4px 0 0;
+  font-size: 14.5px;
+  line-height: 22px;
+  color: var(--gray-600);
+}
+
+/* ---- Start card ---------------------------------------------------------------------- */
+.welcome-start {
+  position: sticky;
+  top: calc(var(--header-h) + 24px);
+  padding: 28px 28px 24px;
+  border: 1px solid var(--card-border);
+  border-radius: 22px;
+  background: var(--white);
+  box-shadow: var(--shadow-card);
+}
+
+.welcome-start .welcome-section__title {
+  margin-bottom: 4px;
+  font-size: 22px;
+  line-height: 28px;
+}
+
+.welcome-start__lede {
+  margin: 0 0 22px;
+  font-size: 14.5px;
+  line-height: 21px;
+  color: var(--gray-600);
+}
+
+.welcome-q {
+  min-width: 0;
+  margin: 0 0 22px;
+  padding: 0;
+  border: 0;
+}
+
+.welcome-q__label {
+  margin-bottom: 10px;
+  padding: 0;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  color: var(--gray-500);
+}
+
+.welcome-q__options {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+/* Pill options: a check slides in when selected */
+.welcome-chip {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 0;
+  height: 42px;
+  padding: 0 16px;
+  border: 1px solid var(--gray-200);
+  border-radius: 999px;
+  background: var(--white);
+  cursor: pointer;
+  transition: border-color 0.15s ease, background-color 0.15s ease, color 0.15s ease;
+}
+
+.welcome-chip input {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  opacity: 0;
+}
+
+.welcome-chip__check {
+  display: inline-flex;
+  width: 0;
+  overflow: hidden;
+  color: var(--primary);
+}
+
+.welcome-chip__check svg {
+  flex: none;
+  width: 15px;
+  height: 15px;
+}
+
+.welcome-chip__name {
+  font-size: 14.5px;
+  font-weight: 500;
+  white-space: nowrap;
+  color: var(--gray-700);
+}
+
+.welcome-chip:hover {
+  border-color: var(--gray-300);
+  background: var(--gray-50);
+}
+
+.welcome-chip:has(input:checked) {
+  gap: 7px;
+  border-color: var(--primary);
+  background: var(--primary-wash);
+}
+
+.welcome-chip:has(input:checked) .welcome-chip__check {
+  width: 15px;
+}
+
+.welcome-chip:has(input:checked) .welcome-chip__name {
+  font-weight: 600;
+  color: var(--primary-dark);
+}
+
+.welcome-chip:has(input:focus-visible) {
+  outline: 2px solid var(--primary);
+  outline-offset: 2px;
+}
+
+/* Start button first, the quieter option underneath */
+.welcome-form__actions {
+  display: flex;
+  flex-direction: column-reverse;
+  align-items: stretch;
+  gap: 8px;
+  margin-top: 6px;
+  padding-top: 20px;
+  border-top: 1px solid var(--gray-100);
+}
+
+.welcome-form__start {
+  justify-content: center;
+  height: 52px;
+  gap: 8px;
+  font-size: 15.5px;
+}
+
+.welcome-form__skip {
+  padding: 6px;
+  border-radius: 999px;
+  font-size: 14px;
+  font-weight: 600;
+  text-align: center;
+  color: var(--gray-600);
+}
+
+.welcome-form__skip:hover {
+  background: var(--gray-100);
+  color: var(--gray-900);
+}
+
+/* ---- Responsive ---------------------------------------------------------------------- */
+@media (max-width: 960px) {
+  .welcome {
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-areas:
+      "hero"
+      "start"
+      "steps";
+    grid-template-rows: none;
+    gap: 28px;
+    max-width: calc(640px + 2 * var(--page-x));
+    padding-top: 36px;
+  }
+
+  .welcome-start {
+    position: static;
+  }
+}
+
+@media (max-width: 600px) {
+  .welcome {
+    padding-top: 24px;
+  }
+
+  .welcome-hero__title {
+    font-size: 31px;
+    line-height: 37px;
+  }
+
+  .welcome-hero__lede {
+    font-size: 15.5px;
+    line-height: 24px;
+  }
+
+  .welcome-start {
+    padding: 22px 18px 18px;
+    border-radius: 18px;
+  }
+}
+

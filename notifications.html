@@ -8,41 +8,36 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,400..600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/styles.css">
-  <link rel="stylesheet" href="css/notifications.css">
   <script src="js/brand.js"></script>
 </head>
 <body data-page="notifications">
   <div id="site-header"></div>
 
-  <main class="page page--compact notifs-page">
-    <div class="notifs-head">
-      <div>
-        <h1 class="page__title notifs-title">Notifications</h1>
-        <p class="notifs-lede">Updates on your application, documents and appointments.</p>
-      </div>
-      <button class="btn btn--outline notifs-mark-all" type="button" data-mark-all>
-        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 12.5l4.5 4.5L15 8.5M10 16l1 1 9-9.5"/></svg>
-        Mark all as read
-      </button>
+  <!-- Full-page list for phones (the bell opens a side drawer on larger screens) -->
+  <main class="page notif-page" data-notif-page data-filter="all">
+    <div class="notif-page__head">
+      <a class="notif-page__back" href="index.html" aria-label="Back" data-notif-back>
+        <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg>
+      </a>
+      <h1 class="page__title notif-page__title">Notifications</h1>
+      <button class="notif-drawer__mark" type="button" data-notif-markall>Mark all as read</button>
     </div>
 
-    <section class="notifs-card" aria-label="Your notifications">
-      <div class="notifs-toolbar">
-        <div class="notifs-tabs" role="group" aria-label="Show notifications">
-          <button class="notifs-tab is-active" type="button" data-filter="all" aria-pressed="true">All</button>
-          <button class="notifs-tab" type="button" data-filter="unread" aria-pressed="false">Unread <span class="notifs-tab__count" data-unread-count></span></button>
-        </div>
-        <a class="notifs-settings" href="notification-settings.html">
-          <svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 6h10M18 6h2M4 12h4M12 12h8M4 18h12"/><circle cx="16" cy="6" r="2"/><circle cx="10" cy="12" r="2"/><circle cx="18" cy="18" r="2"/></svg>
-          Settings
-        </a>
-      </div>
+    <div class="notif-drawer__tabs notif-page__tabs" role="group" aria-label="Show notifications">
+      <button class="notif-drawer__tab is-active" type="button" data-notif-filter="all" aria-pressed="true">All</button>
+      <button class="notif-drawer__tab" type="button" data-notif-filter="unread" aria-pressed="false">Unread <span class="notif-drawer__count" data-notif-unread></span></button>
+    </div>
 
-      <div class="notifs-list" data-list aria-live="polite"></div>
+    <section class="notif-page__card" aria-label="Your notifications">
+      <div class="notif-drawer__list notif-page__list" data-notif-list aria-live="polite"></div>
     </section>
+
+    <a class="notif-page__settings" href="notification-settings.html">
+      <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 6h10M18 6h2M4 12h4M12 12h8M4 18h12"/><circle cx="16" cy="6" r="2"/><circle cx="10" cy="12" r="2"/><circle cx="18" cy="18" r="2"/></svg>
+      Notification settings
+    </a>
   </main>
 
   <script src="js/layout.js"></script>
-  <script src="js/notifications.js"></script>
 </body>
 </html>

@@ -130,6 +130,49 @@
     return { all: all, unreadCount: unreadCount, setRead: setRead, markAllRead: markAllRead };
   })();
 
+  // ---- Appointments (shared so the booking pop-up works on every page) ----------
+  window.PortalAppointments = (function () {
+    var KEY = "portal.appointments";
+
+    function at(days, hour) {
+      var d = new Date();
+      d.setDate(d.getDate() + days);
+      d.setHours(hour, 0, 0, 0);
+      return d.toISOString();
+    }
+
+    // Sample bookings shown until the applicant books or cancels one.
+    function sample() {
+      return [
+        { id: "APT-1002", specialist: "Tejal Sakpal", date: at(3, 10), recordings: 0 },
+        { id: "APT-1001", specialist: "Tejal Sakpal", date: at(-12, 14), recordings: 1 },
+      ];
+    }
+
+    function load() {
+      try {
+        var raw = window.localStorage.getItem(KEY);
+        return raw === null ? sample() : JSON.parse(raw) || [];
+      } catch (e) {
+        return sample();
+      }
+    }
+
+    function store(list) {
+      try { window.localStorage.setItem(KEY, JSON.stringify(list)); } catch (e) { /* not persisted */ }
+    }
+
+    function add(specialist, iso) {
+      var list = load();
+      var nextId = list.reduce(function (max, a) { return Math.max(max, parseInt(String(a.id).replace(/\D/g, ""), 10) || 0); }, 1000) + 1;
+      list.push({ id: "APT-" + nextId, specialist: specialist, date: iso, recordings: 0 });
+      store(list);
+      return "APT-" + nextId;
+    }
+
+    return { load: load, store: store, add: add };
+  })();
+
   var profile = window.PortalProfile.get();
 
   var ICONS = {
@@ -190,9 +233,8 @@
     '<a class="site-header__logo" href="index.html"><img src="' + esc(BRAND.logo) + '" alt="' + esc(BRAND.name) + ' – home"></a>' +
     '<nav class="main-nav" id="main-nav" aria-label="Main">' + navLinks + "</nav>" +
     '<div class="site-header__actions">' +
-    '<a class="icon-btn notif-btn' + (activePage === "notifications" ? " is-active" : "") + '" href="notifications.html"' +
-      (activePage === "notifications" ? ' aria-current="page"' : "") + ">" + ICONS.bell +
-      '<span class="notif-badge" data-notif-badge hidden></span><span class="sr-only" data-notif-label>Notifications</span></a>' +
+    '<button class="icon-btn notif-btn" type="button" aria-haspopup="dialog" aria-controls="notif-drawer" aria-expanded="false" data-notif-toggle>' + ICONS.bell +
+      '<span class="notif-badge" data-notif-badge hidden></span><span class="sr-only" data-notif-label>Notifications</span></button>' +
     '<div class="account">' +
       '<button class="user-avatar" type="button" aria-label="Account menu" aria-haspopup="true" aria-expanded="false" aria-controls="account-menu" data-account-toggle>' +
         '<span class="avatar-fill" data-profile-avatar>' + avatarInner(profile) + "</span></button>" +
@@ -265,6 +307,200 @@
   renderBadge();
   document.addEventListener("notifications:change", renderBadge);
 
+  // ---- Notifications drawer (slides in from the right) -------------------------------
+  var NOTIF_ICONS = {
+    action: '<path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5"/><path d="M12 11v6M9 14l3-3 3 3"/>',
+    message: '<path d="M21 12a8 8 0 0 1-11.6 7.1L4 20.5l1.4-4.9A8 8 0 1 1 21 12z"/><path d="M8.5 10.5h7M8.5 13.5h4.5"/>',
+    appointment: '<rect x="3.5" y="5" width="17" height="15.5" rx="2.5"/><path d="M3.5 10h17M8 3v4M16 3v4"/>',
+    document: '<path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5"/><path d="M9 14.5l2 2 4-4.5"/>',
+    application: '<path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/>',
+    welcome: '<path d="M3 11.5L12 4l9 7.5"/><path d="M5.5 9.5V20h13V9.5"/><path d="M10 20v-5h4v5"/>',
+  };
+
+  document.body.insertAdjacentHTML("beforeend",
+    '<div class="notif-drawer__overlay" data-notif-close hidden></div>' +
+    '<aside class="notif-drawer" id="notif-drawer" role="dialog" aria-modal="true" aria-labelledby="notif-drawer-title" hidden>' +
+      '<header class="notif-drawer__head">' +
+        '<h2 class="notif-drawer__title" id="notif-drawer-title">Notifications</h2>' +
+        '<button class="notif-drawer__mark" type="button" data-notif-markall>Mark all as read</button>' +
+        '<button class="notif-drawer__close" type="button" aria-label="Close notifications" data-notif-close>' +
+          '<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg></button>' +
+      "</header>" +
+      '<div class="notif-drawer__tabs" role="group" aria-label="Show notifications">' +
+        '<button class="notif-drawer__tab is-active" type="button" data-notif-filter="all" aria-pressed="true">All</button>' +
+        '<button class="notif-drawer__tab" type="button" data-notif-filter="unread" aria-pressed="false">Unread <span class="notif-drawer__count" data-notif-unread></span></button>' +
+      "</div>" +
+      '<div class="notif-drawer__list" data-notif-list></div>' +
+      '<footer class="notif-drawer__foot"><a href="notification-settings.html">Notification settings</a></footer>' +
+    "</aside>");
+
+  var drawer = document.getElementById("notif-drawer");
+  var overlay = document.querySelector(".notif-drawer__overlay");
+  var bell = header.querySelector("[data-notif-toggle]");
+
+  function dayDiff(iso) {
+    var a = new Date(); a.setHours(0, 0, 0, 0);
+    var b = new Date(iso); b.setHours(0, 0, 0, 0);
+    return Math.round((a - b) / 86400000);
+  }
+
+  function groupLabel(iso) {
+    var n = dayDiff(iso);
+    return n <= 0 ? "Today" : n === 1 ? "Yesterday" : n < 7 ? "Earlier this week" : "Older";
+  }
+
+  function whenLabel(iso) {
+    var d = new Date(iso), n = dayDiff(iso);
+    var clock = d.toLocaleTimeString("en-IE", { hour: "2-digit", minute: "2-digit" });
+    if (n <= 0) {
+      var mins = Math.max(1, Math.round((Date.now() - d) / 60000));
+      return mins < 60 ? mins + " min ago" : Math.round(mins / 60) + "h ago";
+    }
+    if (n === 1) return clock;
+    if (n < 7) return d.toLocaleDateString("en-IE", { weekday: "short" }) + ", " + clock;
+    return d.toLocaleDateString("en-IE", { day: "numeric", month: "short" });
+  }
+
+  // Renders the list into a scope: the drawer, or the Notifications page on phones.
+  function renderNotifs(scope) {
+    var filter = scope.getAttribute("data-filter") || "all";
+    var all = window.PortalNotifications.all().sort(function (a, b) { return b.date.localeCompare(a.date); });
+    var unread = all.filter(function (n) { return !n.read; }).length;
+    var countEl = scope.querySelector("[data-notif-unread]");
+    countEl.textContent = unread;
+    countEl.hidden = !unread;
+    scope.querySelector("[data-notif-markall]").disabled = !unread;
+    var items = filter === "unread" ? all.filter(function (n) { return !n.read; }) : all;
+    var listEl = scope.querySelector("[data-notif-list]");
+    if (!items.length) {
+      listEl.innerHTML = '<div class="notif-drawer__empty"><p class="notif-drawer__empty-title">' +
+        (filter === "unread" ? "You're all caught up" : "No notifications yet") + "</p><p>" +
+        "Updates on your application, documents and appointments will appear here.</p></div>";
+      return;
+    }
+    var html = "", current = null;
+    items.forEach(function (n) {
+      var g = groupLabel(n.date);
+      if (g !== current) {
+        if (current) html += "</ul>";
+        html += '<p class="notif-drawer__group">' + g + '</p><ul class="notif-drawer__items">';
+        current = g;
+      }
+      html +=
+        '<li class="notif-item' + (n.read ? "" : " is-unread") + '">' +
+          '<a class="notif-item__link" href="' + esc(n.href) + '" data-notif-open="' + esc(n.id) + '">' +
+            '<span class="notif-item__icon notif-item__icon--' + esc(n.type) + '"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' + (NOTIF_ICONS[n.type] || NOTIF_ICONS.welcome) + "</svg></span>" +
+            '<span class="notif-item__main">' +
+              '<span class="notif-item__title">' + (n.read ? "" : '<span class="sr-only">Unread: </span>') + esc(n.title) + "</span>" +
+              '<span class="notif-item__body">' + esc(n.body) + "</span>" +
+              '<span class="notif-item__time">' + whenLabel(n.date) + "</span>" +
+            "</span>" +
+          "</a>" +
+          '<button class="notif-item__toggle" type="button" data-notif-toggle-read="' + esc(n.id) + '" aria-label="' + (n.read ? "Mark as unread: " : "Mark as read: ") + esc(n.title) + '" title="' + (n.read ? "Mark as unread" : "Mark as read") + '"><span aria-hidden="true"></span></button>' +
+        "</li>";
+    });
+    listEl.innerHTML = html + "</ul>";
+  }
+
+  function renderDrawer() { renderNotifs(drawer); }
+  var notifPage = document.querySelector("[data-notif-page]");
+  if (notifPage) renderNotifs(notifPage);
+
+  // Back arrow: return to the page the bell was tapped on; the dashboard if
+  // the page was opened directly.
+  var notifBack = document.querySelector("[data-notif-back]");
+  if (notifBack) {
+    notifBack.addEventListener("click", function (e) {
+      var ref = document.referrer;
+      if (ref && ref.indexOf(window.location.origin) === 0 && window.history.length > 1) {
+        e.preventDefault();
+        window.history.back();
+      }
+    });
+  }
+
+  // Phones get the full Notifications page; larger screens the side drawer.
+  var phone = window.matchMedia("(max-width: 600px)");
+
+  function setDrawer(open) {
+    drawer.hidden = !open;
+    overlay.hidden = !open;
+    bell.setAttribute("aria-expanded", String(open));
+    document.body.classList.toggle("has-notif-drawer", open);
+    if (open) {
+      setAccountOpen(false);
+      setOpen(false);
+      renderDrawer();
+      drawer.querySelector(".notif-drawer__close").focus();
+    } else {
+      bell.focus();
+    }
+  }
+
+  bell.addEventListener("click", function (e) {
+    e.stopPropagation();
+    if (phone.matches) {
+      if (!notifPage) window.location.href = "notifications.html";
+      return;
+    }
+    setDrawer(drawer.hidden);
+  });
+
+  document.addEventListener("click", function (e) {
+    if (e.target.closest("[data-notif-close]")) { setDrawer(false); return; }
+    var scope = e.target.closest("#notif-drawer, [data-notif-page]");
+    if (!scope) return;
+    var tab = e.target.closest("[data-notif-filter]");
+    if (tab) {
+      scope.setAttribute("data-filter", tab.getAttribute("data-notif-filter"));
+      scope.querySelectorAll("[data-notif-filter]").forEach(function (t) {
+        t.classList.toggle("is-active", t === tab);
+        t.setAttribute("aria-pressed", String(t === tab));
+      });
+      renderNotifs(scope);
+      return;
+    }
+    if (e.target.closest("[data-notif-markall]")) { window.PortalNotifications.markAllRead(); return; }
+    var toggleRead = e.target.closest("[data-notif-toggle-read]");
+    if (toggleRead) {
+      var tid = toggleRead.getAttribute("data-notif-toggle-read");
+      var item = window.PortalNotifications.all().filter(function (n) { return n.id === tid; })[0];
+      if (item) window.PortalNotifications.setRead(tid, !item.read);
+      var again = scope.querySelector('[data-notif-toggle-read="' + tid + '"]');
+      if (again) again.focus();
+      return;
+    }
+    var openLink = e.target.closest("[data-notif-open]");
+    if (openLink && !(e.metaKey || e.ctrlKey || e.shiftKey)) {
+      e.preventDefault();
+      var href = openLink.getAttribute("href");
+      window.PortalNotifications.setRead(openLink.getAttribute("data-notif-open"), true);
+      window.location.href = href;
+    }
+  });
+
+  document.addEventListener("keydown", function (e) {
+    if (drawer.hidden) return;
+    if (e.key === "Escape") { setDrawer(false); return; }
+    if (e.key === "Tab") {
+      var f = Array.prototype.filter.call(drawer.querySelectorAll("a[href], button:not([disabled])"), function (el) { return el.offsetParent !== null; });
+      if (!f.length) return;
+      if (e.shiftKey && document.activeElement === f[0]) { f[f.length - 1].focus(); e.preventDefault(); }
+      else if (!e.shiftKey && document.activeElement === f[f.length - 1]) { f[0].focus(); e.preventDefault(); }
+    }
+  });
+
+  document.addEventListener("notifications:change", function () {
+    if (!drawer.hidden) renderDrawer();
+    if (notifPage) renderNotifs(notifPage);
+  });
+
+  // Links to #notifications open the drawer
+  if (window.location.hash === "#notifications") {
+    setTimeout(function () { setDrawer(true); }, 0);
+    history.replaceState(null, "", window.location.pathname + window.location.search);
+  }
+
   // ---- Account menu ------------------------------------------------------------------
   var accountToggle = header.querySelector("[data-account-toggle]");
   var accountMenu = header.querySelector("#account-menu");
@@ -302,6 +538,128 @@
     header.querySelector("[data-profile-name]").textContent = p.firstName + " " + p.lastName;
     header.querySelector("[data-profile-email]").textContent = p.email;
   });
+
+  // ---- Book an appointment (pop-up, opened from any booking link) ------------------
+  var CAL_ICON = '<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3.5" y="5" width="17" height="15.5" rx="2.5"/><path d="M3.5 10h17M8 3v4M16 3v4"/><path d="M9 15l2 2 4-4"/></svg>';
+
+  document.body.insertAdjacentHTML("beforeend",
+    '<div class="book-modal" id="book-modal" role="dialog" aria-modal="true" aria-labelledby="book-modal-title" hidden>' +
+      '<div class="book-modal__backdrop" data-book-close></div>' +
+      '<form class="book-modal__panel" novalidate>' +
+        '<header class="book-modal__head">' +
+          '<div><h2 class="book-modal__title" id="book-modal-title">Book an appointment</h2>' +
+          '<p class="book-modal__lede">Choose a time to talk through your mortgage with your specialist.</p></div>' +
+          '<button class="book-modal__close" type="button" aria-label="Close" data-book-close>' +
+            '<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg></button>' +
+        "</header>" +
+        '<div class="book-modal__body">' +
+          '<div class="book-field"><label for="book-specialist">Mortgage specialist</label>' +
+            '<div class="book-select"><select id="book-specialist" name="specialist"><option selected>Tejal Sakpal</option></select></div></div>' +
+          '<div class="book-field"><label for="book-date">Date</label>' +
+            '<div class="book-select"><select id="book-date" name="date" required><option value="" selected disabled>Select a date</option></select></div>' +
+            '<p class="book-chosen" data-book-chosen aria-live="polite" hidden>' + CAL_ICON + "<span></span></p></div>" +
+        "</div>" +
+        '<footer class="book-modal__foot">' +
+          '<button class="btn btn--text book-modal__cancel" type="button" data-book-close>Cancel</button>' +
+          '<button class="btn btn--primary book-modal__submit" type="submit" disabled>Book appointment</button>' +
+        "</footer>" +
+      "</form>" +
+    "</div>");
+
+  var bookModal = document.getElementById("book-modal");
+  var bookForm = bookModal.querySelector("form");
+  var bookDate = bookModal.querySelector("#book-date");
+  var bookSubmit = bookModal.querySelector(".book-modal__submit");
+  var bookChosen = bookModal.querySelector("[data-book-chosen]");
+  var bookOpener = null;
+
+  function fillSlots() {
+    // Sample availability: the next 10 weekdays, morning and afternoon, grouped by day.
+    // Replace with the specialist's real calendar once connected.
+    while (bookDate.options.length > 1) bookDate.remove(1);
+    bookDate.querySelectorAll("optgroup").forEach(function (g) { g.remove(); });
+    var day = new Date();
+    day.setHours(0, 0, 0, 0);
+    var added = 0;
+    while (added < 10) {
+      day.setDate(day.getDate() + 1);
+      if (day.getDay() === 0 || day.getDay() === 6) continue;
+      var group = document.createElement("optgroup");
+      group.label = day.toLocaleDateString("en-IE", { weekday: "long", day: "numeric", month: "long" });
+      [10, 14].forEach(function (h) {
+        var slot = new Date(day);
+        slot.setHours(h, 0, 0, 0);
+        var opt = document.createElement("option");
+        opt.value = slot.toISOString();
+        opt.textContent = slot.toLocaleDateString("en-IE", { weekday: "short", day: "numeric", month: "short" }) + ", " +
+          slot.toLocaleTimeString("en-IE", { hour: "2-digit", minute: "2-digit" }) + (h < 12 ? " · Morning" : " · Afternoon");
+        group.appendChild(opt);
+      });
+      bookDate.appendChild(group);
+      added += 1;
+    }
+  }
+
+  function setBook(open) {
+    bookModal.hidden = !open;
+    document.body.classList.toggle("has-book-modal", open);
+    if (open) {
+      setAccountOpen(false);
+      setOpen(false);
+      fillSlots();
+      bookDate.value = "";
+      bookSubmit.disabled = true;
+      bookChosen.hidden = true;
+      bookDate.focus();
+    } else if (bookOpener) {
+      bookOpener.focus();
+    }
+  }
+
+  document.addEventListener("click", function (e) {
+    var link = e.target.closest('a[href$="appointment-new.html"]');
+    if (link && !(e.metaKey || e.ctrlKey || e.shiftKey)) {
+      e.preventDefault();
+      bookOpener = link;
+      setBook(true);
+      return;
+    }
+    if (!bookModal.hidden && e.target.closest("[data-book-close]")) setBook(false);
+  });
+
+  bookDate.addEventListener("change", function () {
+    bookSubmit.disabled = !bookDate.value;
+    if (!bookDate.value) return;
+    var d = new Date(bookDate.value);
+    bookChosen.querySelector("span").textContent =
+      d.toLocaleDateString("en-IE", { weekday: "long", day: "numeric", month: "long" }) + " at " +
+      d.toLocaleTimeString("en-IE", { hour: "2-digit", minute: "2-digit" }) + (d.getHours() < 12 ? " · Morning" : " · Afternoon");
+    bookChosen.hidden = false;
+  });
+
+  bookForm.addEventListener("submit", function (e) {
+    e.preventDefault();
+    if (!bookDate.value) return;
+    window.PortalAppointments.add(bookModal.querySelector("#book-specialist").value, bookDate.value);
+    window.location.href = "appointments.html";
+  });
+
+  document.addEventListener("keydown", function (e) {
+    if (bookModal.hidden) return;
+    if (e.key === "Escape") { setBook(false); return; }
+    if (e.key === "Tab") {
+      var f = Array.prototype.filter.call(bookModal.querySelectorAll("button:not([disabled]), select"), function (el) { return el.offsetParent !== null; });
+      if (!f.length) return;
+      if (e.shiftKey && document.activeElement === f[0]) { f[f.length - 1].focus(); e.preventDefault(); }
+      else if (!e.shiftKey && document.activeElement === f[f.length - 1]) { f[0].focus(); e.preventDefault(); }
+    }
+  });
+
+  // appointments.html#book (and the old booking page) open the pop-up
+  if (window.location.hash === "#book") {
+    setTimeout(function () { setBook(true); }, 0);
+    history.replaceState(null, "", window.location.pathname + window.location.search);
+  }
 })();
 
 /* ==========================================================================

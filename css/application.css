@@ -2775,3 +2775,138 @@ svg.status-row__glyph {
     gap: 20px;
   }
 }
+
+/* ==========================================================================
+   Summaries: stacked long questions and Yes / No tags
+   ========================================================================== */
+
+.summary__row {
+  align-items: baseline;
+  padding: 14px 20px;
+}
+
+.summary__row dt {
+  font-size: 14.5px;
+  line-height: 22px;
+}
+
+/* Long questions: full width, answer underneath */
+.summary__row--stacked {
+  grid-template-columns: minmax(0, 1fr);
+  gap: 8px;
+}
+
+.summary__row--stacked dt {
+  max-width: 68ch;
+}
+
+.summary__answer {
+  display: inline-flex;
+  align-items: center;
+  height: 26px;
+  padding: 0 12px;
+  border-radius: 999px;
+  font-size: 13.5px;
+  font-weight: 600;
+  line-height: 1;
+}
+
+.summary__answer--yes {
+  background: var(--accent-tint);
+  color: var(--accent-dark);
+}
+
+.summary__answer--no {
+  background: var(--gray-100);
+  color: var(--gray-700);
+}
+
+@media (max-width: 600px) {
+  .summary__row {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 6px;
+    padding: 13px 16px;
+  }
+
+  .summary__row--nested {
+    padding-left: 28px;
+  }
+}
+
+/* ==========================================================================
+   Detail pages: stronger card heading, part progress, required marker
+   ========================================================================== */
+
+.form-card__title {
+  margin: 0 0 4px;
+  font-size: 23px;
+  line-height: 30px;
+  font-weight: 500;
+  color: var(--gray-900);
+}
+
+.form-card__desc {
+  font-size: 14.5px;
+  line-height: 22px;
+  color: var(--gray-600);
+}
+
+.form-card__desc + .form-card__desc {
+  margin-top: 2px;
+}
+
+/* Part progress */
+.part-progress {
+  margin-top: 18px;
+}
+
+.part-progress__bar {
+  display: flex;
+  gap: 6px;
+}
+
+.part-progress__seg {
+  flex: 1;
+  height: 5px;
+  border-radius: 999px;
+  background: var(--gray-100);
+  transition: background-color 0.2s ease;
+}
+
+.part-progress__seg.is-done {
+  background: var(--accent);
+}
+
+.part-progress__seg.is-current {
+  background: var(--primary);
+}
+
+.part-progress__label {
+  margin: 8px 0 0;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--gray-800);
+}
+
+.part-progress__name {
+  font-weight: 400;
+  color: var(--gray-500);
+}
+
+/* Required marker */
+.req {
+  font-weight: 600;
+  color: var(--primary);
+}
+
+/* Sections: spacing under the new heading block */
+.section-card .section-part__fields {
+  margin-top: 28px;
+}
+
+@media (max-width: 600px) {
+  .form-card__title {
+    font-size: 21px;
+    line-height: 28px;
+  }
+}

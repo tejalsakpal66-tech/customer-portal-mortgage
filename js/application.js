@@ -305,6 +305,8 @@
     document.getElementById("details-form-4"),
   ];
   var card = document.querySelector('[data-section="applicant-detail"].form-card');
+  var PART_TITLES = ["Personal details", "Residency, citizenship and address", "Time at current address", "Tax and living situation"];
+  window.PortalSections.renderPartProgress(card, 1, PART_TITLES);
 
   function showPart(n) {
     parts.forEach(function (form, i) {
@@ -314,6 +316,7 @@
       el.hidden = el.getAttribute("data-substep") !== String(n);
     });
     renderRings(n);
+    window.PortalSections.renderPartProgress(card, n, PART_TITLES);
     if (n > 1) syncDurations();
 
     var top = card.getBoundingClientRect().top + window.scrollY - 140;
@@ -353,7 +356,6 @@
     "What is your nationality?": "Nationality",
   };
 
-  var PART_TITLES = ["Personal details", "Residency, citizenship and address", "Time at current address", "Tax and living situation"];
 
   // Rows for one part of step 1, using the portal's summary labels.
   function detailsRowsFor(form, partIndex) {
@@ -515,4 +517,38 @@
   });
 
   showSection(new URLSearchParams(location.search).get("section"));
+})();
+
+/* Required-question marker: the trailing "*" in question labels becomes a
+   small styled mark (the input itself carries `required` for assistive tech).
+   Runs again for fields added later, e.g. repeated groups. */
+(function () {
+  var SEL = ".tf > label, .lf > label, .yes-no__question, .lf-group__label, .form-question";
+
+  function mark(root) {
+    root.querySelectorAll(SEL).forEach(function (el) {
+      if (el.querySelector(".req")) return;
+      var last = el.lastChild;
+      while (last && last.nodeType === 3 && !last.textContent.trim()) last = last.previousSibling;
+      if (!last || last.nodeType !== 3) return;
+      var m = /\s*\*\s*$/.exec(last.textContent);
+      if (!m) return;
+      last.textContent = last.textContent.slice(0, m.index);
+      var star = document.createElement("span");
+      star.className = "req";
+      star.setAttribute("aria-hidden", "true");
+      star.textContent = "*";
+      el.appendChild(document.createTextNode(" "));
+      el.appendChild(star);
+    });
+  }
+
+  var grid = document.querySelector(".application-grid");
+  if (!grid) return;
+  mark(grid);
+  new MutationObserver(function (mutations) {
+    mutations.forEach(function (m) {
+      m.addedNodes.forEach(function (n) { if (n.nodeType === 1) mark(n.parentElement || n); });
+    });
+  }).observe(grid, { childList: true, subtree: true });
 })();

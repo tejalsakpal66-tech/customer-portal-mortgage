@@ -1,38 +1,14 @@
-/* Appointments: list (filters, search, sort, paging) and booking form.
+/* Appointments list: filters, search, sort, paging and cancelling. Booking
+   happens in the shared pop-up in js/layout.js.
    Booked appointments are kept in this browser until the page is connected
    to the scheduling service. */
 
 (function () {
-  var KEY = "portal.appointments";
   var PAGE_SIZE = 10;
 
-  function at(days, hour) {
-    var d = new Date();
-    d.setDate(d.getDate() + days);
-    d.setHours(hour, 0, 0, 0);
-    return d.toISOString();
-  }
-
-  // Sample bookings shown until the applicant books or cancels one.
-  function sample() {
-    return [
-      { id: "APT-1002", specialist: "Tejal Sakpal", date: at(3, 10), recordings: 0 },
-      { id: "APT-1001", specialist: "Tejal Sakpal", date: at(-12, 14), recordings: 1 },
-    ];
-  }
-
-  function load() {
-    try {
-      var raw = window.localStorage.getItem(KEY);
-      return raw === null ? sample() : JSON.parse(raw) || [];
-    } catch (e) {
-      return sample();
-    }
-  }
-
-  function store(list) {
-    try { window.localStorage.setItem(KEY, JSON.stringify(list)); } catch (e) { /* not persisted */ }
-  }
+  // Storage is shared with the booking pop-up (js/layout.js).
+  function load() { return window.PortalAppointments.load(); }
+  function store(list) { window.PortalAppointments.store(list); }
 
   function esc(t) {
     return String(t).replace(/[&<>"']/g, function (c) {
@@ -191,43 +167,4 @@
     render();
   }
 
-  // ---- Booking page -----------------------------------------------------------
-  var form = document.getElementById("appointment-form");
-  if (form) {
-    var dateSel = document.getElementById("appt-date");
-    var save = form.querySelector(".appt-save");
-
-    // Sample availability: the next 10 weekdays, morning and afternoon slots.
-    // Replace with the specialist's real calendar once connected.
-    var day = new Date();
-    day.setHours(0, 0, 0, 0);
-    var added = 0;
-    while (added < 10) {
-      day.setDate(day.getDate() + 1);
-      if (day.getDay() === 0 || day.getDay() === 6) continue;
-      [10, 14].forEach(function (h) {
-        var slot = new Date(day);
-        slot.setHours(h, 0, 0, 0);
-        var opt = document.createElement("option");
-        opt.value = slot.toISOString();
-        opt.textContent = formatSlot(slot.toISOString());
-        dateSel.appendChild(opt);
-      });
-      added += 1;
-    }
-
-    dateSel.addEventListener("change", function () {
-      save.disabled = !dateSel.value;
-    });
-
-    form.addEventListener("submit", function (e) {
-      e.preventDefault();
-      if (!dateSel.value) return;
-      var list = load();
-      var nextId = list.reduce(function (max, a) { return Math.max(max, parseInt(String(a.id).replace(/\D/g, ""), 10) || 0); }, 1000) + 1;
-      list.push({ id: "APT-" + nextId, specialist: document.getElementById("appt-specialist").value, date: dateSel.value, recordings: 0 });
-      store(list);
-      window.location.href = "appointments.html";
-    });
-  }
 })();

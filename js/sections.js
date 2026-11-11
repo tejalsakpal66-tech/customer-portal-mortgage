@@ -452,14 +452,39 @@ window.PortalSections = (function () {
     card.hidden = true;
     card.innerHTML =
       '<h2 class="form-card__title">' + esc(s.title) + "</h2>" +
-      '<p class="docs-card__desc">' + esc(s.desc) + "</p>" +
+      '<p class="form-card__desc">' + esc(s.desc) + "</p>" +
+      '<div class="part-progress" data-part-progress hidden></div>' +
       s.parts.map(function (fields, i) {
         return '<form class="section-part" data-part="' + (i + 1) + '" novalidate' + (i ? " hidden" : "") + ">" +
           '<div class="form-stack form-stack--lf section-part__fields">' + fieldsHtml(fields) + "</div>" +
           footerHtml(i > 0) + "</form>";
       }).join("");
     wireSection(card, s);
+    renderPartProgress(card, 1, partTitlesOf(s));
     return card;
+  }
+
+  // ---- Part progress ("Part 2 of 4 · Income") -------------------------------------
+  function partTitlesOf(s) {
+    return s.parts.map(function (_, i) { return (s.partTitles && s.partTitles[i]) || "Part " + (i + 1); });
+  }
+
+  // Segmented bar + label under a card's heading; hidden for single-part cards.
+  function renderPartProgress(card, n, titles) {
+    var el = card.querySelector("[data-part-progress]");
+    if (!el) return;
+    var total = titles.length;
+    el.hidden = total < 2;
+    if (total < 2) return;
+    el.innerHTML =
+      '<div class="part-progress__bar" aria-hidden="true">' +
+        titles.map(function (_, i) {
+          var cls = i + 1 < n ? " is-done" : i + 1 === n ? " is-current" : "";
+          return '<span class="part-progress__seg' + cls + '"></span>';
+        }).join("") +
+      "</div>" +
+      '<p class="part-progress__label">Part ' + n + " of " + total +
+        '<span class="part-progress__name"> · ' + esc(titles[n - 1]) + "</span></p>";
   }
 
   // ---- Behaviour ----------------------------------------------------------------
@@ -615,6 +640,8 @@ window.PortalSections = (function () {
 
   function showPart(card, n) {
     card.querySelectorAll(".section-part").forEach(function (form, i) { form.hidden = i + 1 !== n; });
+    var sec = SECTIONS[card.getAttribute("data-section")];
+    if (sec) renderPartProgress(card, n, partTitlesOf(sec));
     var top = card.getBoundingClientRect().top + window.scrollY - 140;
     if (window.scrollY > top) window.scrollTo({ top: Math.max(0, top), behavior: "smooth" });
   }
@@ -689,11 +716,24 @@ window.PortalSections = (function () {
 
   var ARROW = '<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>';
 
+  // Long questions stack (question above, answer below) instead of squeezing
+  // into the label column; Yes/No answers show as small tags for scanning.
+  var LONG_LABEL = 80;
+
+  function answerHtml(value) {
+    if (value === "Yes" || value === "No") {
+      return '<span class="summary__answer summary__answer--' + value.toLowerCase() + '">' + value + "</span>";
+    }
+    return esc(value);
+  }
+
   function rowsHtml(rows) {
     return rows.map(function (r) {
-      return r.group
-        ? '<div class="summary__group">' + esc(r.group) + "</div>"
-        : '<div class="summary__row' + (r.nested ? " summary__row--nested" : "") + '"><dt>' + esc(r.label) + "</dt><dd>" + esc(r.value) + "</dd></div>";
+      if (r.group) return '<div class="summary__group">' + esc(r.group) + "</div>";
+      var cls = "summary__row" +
+        (r.nested ? " summary__row--nested" : "") +
+        (r.label.length > LONG_LABEL ? " summary__row--stacked" : "");
+      return '<div class="' + cls + '"><dt>' + esc(r.label) + "</dt><dd>" + answerHtml(r.value) + "</dd></div>";
     }).join("");
   }
 
@@ -942,6 +982,7 @@ window.PortalSections = (function () {
     },
     collectRows: collectRows,
     mountSummary: mountSummary,
+    renderPartProgress: renderPartProgress,
     markComplete: function (name) {
       completed[name] = true;
       if (window.AppProgress) window.AppProgress.complete(name);
