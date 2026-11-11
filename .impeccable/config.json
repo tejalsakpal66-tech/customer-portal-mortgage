@@ -350,6 +350,24 @@
         ],
         "createdAt": "2026-11-10T18:18:09.925Z",
         "reason": "Same pattern as the live portal's forgot-password page (icon tile above the heading)"
+      },
+      {
+        "rule": "pulsing-dot",
+        "value": "*",
+        "files": [
+          "welcome.html"
+        ],
+        "createdAt": "2026-11-10T18:44:51.949Z",
+        "reason": "Assistant typing indicator, shown only while a reply is pending"
+      },
+      {
+        "rule": "cream-palette",
+        "value": "*",
+        "files": [
+          "welcome.html"
+        ],
+        "createdAt": "2026-11-10T18:44:51.962Z",
+        "reason": "Brand page background"
       }
     ]
   }

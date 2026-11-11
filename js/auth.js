@@ -270,7 +270,7 @@
         saved.email = form.elements.email.value.trim();
         window.localStorage.setItem("portal.profile", JSON.stringify(saved));
       } catch (err) { /* storage blocked: continue without saving */ }
-      window.location.href = "index.html";
+      window.location.href = "welcome.html";
     });
 
     renderRules(pw.value);

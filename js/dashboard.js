@@ -33,6 +33,15 @@
   if (state === "new") { progress = 0; completed = []; }
   if (state === "in-progress" && !progress) progress = 19;
 
+  // First visit with nothing started: show the welcome page once
+  // (?state=new previews the dashboard itself without redirecting).
+  var welcomeSeen = false;
+  try { welcomeSeen = window.localStorage.getItem("portal.welcomeSeen") === "1"; } catch (e) { welcomeSeen = true; }
+  if (!progress && !state && !welcomeSeen) {
+    window.location.replace("welcome.html");
+    return;
+  }
+
   // Application sections in order; the first unfinished one is "Next up".
   var STEPS = [
     { key: "applicant-detail", title: "Your application details" },
